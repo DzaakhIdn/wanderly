@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FormTextField extends StatelessWidget {
   final String label;
@@ -25,10 +26,12 @@ class FormTextField extends StatelessWidget {
       decoration: InputDecoration(
         filled: true,
         hintText: label,
-        hintStyle: const TextStyle(
-          color: Color(0xFFA1A1A1),
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
+        hintStyle: GoogleFonts.quicksand(
+          textStyle: TextStyle(
+            color: Color(0xFFA1A1A1),
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+          ),
         ),
         fillColor: const Color(0xFFF3F2F2),
         border: OutlineInputBorder(

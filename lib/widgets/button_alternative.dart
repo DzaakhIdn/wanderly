@@ -64,7 +64,7 @@ class ButtonColor extends StatelessWidget {
 class ButtonOutline extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
-  final Icon? buttonIcon;
+  final Widget? buttonIcon;
   final double? width;
   final Color? outlineColor;
   final Color? textColor;
@@ -100,7 +100,7 @@ class ButtonOutline extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.transparent,
               borderRadius: BorderRadius.circular(13),
-              border: Border.all(color: borderCol, width: borderWidth ?? 2),
+              border: Border.all(color: borderCol, width: borderWidth ?? 1.5),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,

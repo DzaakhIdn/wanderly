@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wanderly_app/screens/auth/signin_form_screen.dart';
+import 'package:wanderly_app/screens/auth/signin_screen.dart';
 import 'package:wanderly_app/screens/onbboarding.dart';
 
 void main() {
@@ -12,8 +14,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: Onbboarding(),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      ),
+      initialRoute: Onbboarding.routName,
+      routes: {
+        Onbboarding.routName: (context) => Onbboarding(),
+        SigninScreen.routeName: (context) => SigninScreen(),
+        SigninFormScreen.routeName: (context) => SigninFormScreen(),
+      },
     );
   }
 }

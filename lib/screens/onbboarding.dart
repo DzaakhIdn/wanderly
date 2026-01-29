@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:wanderly_app/screens/auth/signin_screen.dart';
+import 'package:wanderly_app/theme/app_colors.dart';
 import 'package:wanderly_app/widgets/button_alternative.dart';
-import 'package:wanderly_app/widgets/form_field.dart';
-import 'package:wanderly_app/widgets/navbar/icon_sets.dart';
-import 'package:wanderly_app/widgets/navbar/navbar.dart';
-import 'package:wanderly_app/widgets/navbar/navbar_item.dart';
 
 class Onbboarding extends StatelessWidget {
+  static const routName = '/';
   Onbboarding({super.key});
 
   final testControler = TextEditingController();
@@ -14,57 +13,95 @@ class Onbboarding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.light.background,
       body: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(35.0),
+          Center(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Center(
-                  child: ButtonColor(
-                    text: "coba",
-                    onPressed: () {
-                      print("Button ditekan!");
-                    },
-                  ),
+                SizedBox(
+                  width: 175,
+                  height: 175,
+                  child: Image.asset("assets/important/wanderly_logo.png"),
                 ),
-                Stack(
-                  children: [
-                    FormTextField(label: "Test", controller: testControler),
-                  ],
+                Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Wander",
+                        style: GoogleFonts.jua(
+                          textStyle: TextStyle(
+                            fontSize: 31,
+                            color: AppColors.light.primary,
+                          ),
+                        ),
+                      ),
+                      TextSpan(
+                        text: "Ly",
+                        style: GoogleFonts.jua(
+                          textStyle: TextStyle(
+                            fontSize: 31,
+                            color: AppColors.light.secondary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
           Align(
-            alignment: AlignmentGeometry.bottomCenter,
-            child: Navbar(
-              items: [
-                NavbarItem(
-                  icon: Iconify(homeIcon, size: 40),
-                  defaultColor: Colors.grey,
-                  selectedColor: Colors.amber,
-                  onTap: () {},
-                ),
-                NavbarItem(
-                  icon: Iconify(seacrchIcon, size: 40),
-                  defaultColor: Colors.grey,
-                  selectedColor: Colors.blue,
-                  onTap: () {},
-                ),
-                NavbarItem(
-                  icon: Iconify(mapIcon, size: 40),
-                  defaultColor: Colors.grey,
-                  selectedColor: Colors.green,
-                  onTap: () {},
-                ),
-                NavbarItem(
-                  icon: Iconify(userIcon, size: 40),
-                  defaultColor: Colors.grey,
-                  selectedColor: Colors.purple,
-                  onTap: () {},
-                ),
-              ],
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: 231,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: AppColors.light.surface,
+                borderRadius: BorderRadius.circular(24),
+              ),
+              padding: EdgeInsets.all(30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Garis biru di atas
+                  Container(
+                    width: 50,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: AppColors.light.primary,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+
+                  // Text heading
+                  Text(
+                    'Explore the world effortlessly',
+                    style: GoogleFonts.jua(
+                      textStyle: TextStyle(
+                        fontSize: 20,
+                        color: AppColors.light.primary,
+                      ),
+                    ),
+                  ),
+
+                  // Button
+                  ButtonColor(
+                    width: double.infinity,
+                    text: 'Get Started',
+                    btnColor: AppColors.light.primary,
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(
+                        context,
+                        SigninScreen.routeName,
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ],
