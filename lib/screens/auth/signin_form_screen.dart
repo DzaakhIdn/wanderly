@@ -16,7 +16,7 @@ class _SigninFormScreenState extends State<SigninFormScreen> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 35),
             child: Row(
               children: [
                 GestureDetector(
@@ -35,21 +35,29 @@ class _SigninFormScreenState extends State<SigninFormScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
-                Text(
-                  "Sign In",
-                  style: GoogleFonts.quicksand(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFF242424),
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      "Sign In",
+                      style: GoogleFonts.quicksand(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF222222),
+                      ),
+                    ),
                   ),
                 ),
+                SizedBox(width: 41),
               ],
             ),
           ),
           Expanded(
-            child: Container(
-              // Konten halaman di sini
+            child: Padding(
+              padding: EdgeInsetsGeometry.only(top: 35, right: 30, left: 30),
+              child: Column(children: [
+                
+                ],
+              ),
             ),
           ),
         ],

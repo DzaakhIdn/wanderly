@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wanderly_app/screens/auth/signin_form_screen.dart';
+// import 'package:wanderly_app/screens/auth/signin_form_screen.dart';
 import 'package:wanderly_app/theme/app_colors.dart';
 import 'package:wanderly_app/widgets/button_alternative.dart';
 import 'package:wanderly_app/widgets/form_field.dart';
@@ -16,7 +16,9 @@ class SigninScreen extends StatefulWidget {
 }
 
 class _SigninScreenState extends State<SigninScreen> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,25 +70,38 @@ class _SigninScreenState extends State<SigninScreen> {
                 padding: const EdgeInsets.only(right: 35, left: 35, top: 55),
                 child: Column(
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Email Address",
-                          style: GoogleFonts.quicksand(
-                            textStyle: TextStyle(
-                              fontSize: 12,
-                              color: Color(0xFF242424),
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Email Address",
+                            style: GoogleFonts.quicksand(
+                              textStyle: TextStyle(
+                                fontSize: 12,
+                                color: Color(0xFF242424),
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: 7),
-                        FormTextField(
-                          label: "Enter your email address",
-                          controller: _emailController,
-                        ),
-                      ],
+                          SizedBox(height: 7),
+                          FormTextField(
+                            label: "Enter your email address",
+                            controller: _emailController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Input tidak boleh kosong'; // Pesan error
+                              }
+                              if (!value.contains("@")) {
+                                return "tipe email salah";
+                              }
+
+                              return null;
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(height: 15),
                     ButtonColor(
@@ -94,7 +109,7 @@ class _SigninScreenState extends State<SigninScreen> {
                       width: double.infinity,
                       onPressed: () {
                         final email = _emailController.text;
-                        if (email.isNotEmpty) {
+                        if (email.isNotEmpty && email.contains("@")) {
                           Navigator.pushNamed(
                             context,
                             'signin_form',
@@ -103,8 +118,16 @@ class _SigninScreenState extends State<SigninScreen> {
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Email tidak boleh kosong'),
+                              content: Text(
+                                'Email tidak boleh kosong dan format harus bener',
+                              ),
                             ),
+                          );
+                        }
+                        if (_formKey.currentState!.validate()) {
+                          // Proses jika input valid
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Memproses data')),
                           );
                         }
                       },
