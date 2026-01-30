@@ -1,26 +1,30 @@
-import 'package:colorful_iconify_flutter/icons/logos.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:wanderly_app/theme/app_colors.dart';
 import 'package:wanderly_app/theme/icon_sets.dart';
 import 'package:wanderly_app/widgets/button_alternative.dart';
+import 'package:wanderly_app/widgets/dropdown_alternative.dart';
 import 'package:wanderly_app/widgets/form_field.dart';
 
-class SigninFormScreen extends StatefulWidget {
-  static const routeName = 'signin_form';
-  const SigninFormScreen({super.key});
+class SignupFormScreen extends StatefulWidget {
+  static const routeName = 'signup_form';
+  const SignupFormScreen({super.key});
 
   @override
-  State<SigninFormScreen> createState() => _SigninFormScreenState();
+  State<SignupFormScreen> createState() => _SignupFormScreenState();
 }
 
-class _SigninFormScreenState extends State<SigninFormScreen> {
+class _SignupFormScreenState extends State<SignupFormScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _emailPasswordController =
       TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   bool _obscurePassword = true;
+  String? selectedGender;
 
   @override
   void initState() {
@@ -69,7 +73,7 @@ class _SigninFormScreenState extends State<SigninFormScreen> {
                 Expanded(
                   child: Center(
                     child: Text(
-                      "Sign In",
+                      "Sign Up",
                       style: GoogleFonts.quicksand(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -91,6 +95,36 @@ class _SigninFormScreenState extends State<SigninFormScreen> {
                   child: Column(
                     spacing: 15,
                     children: [
+                      // ! Fullname section
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Full Name",
+                            style: GoogleFonts.quicksand(
+                              textStyle: TextStyle(
+                                fontSize: 12,
+                                color: Color(0xFF242424),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 7),
+                          FormTextField(
+                            keyboardType: TextInputType.name,
+                            label: "Enter your name",
+                            controller: _fullNameController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'kamu ga punya nama kah?';
+                              }
+                              return null;
+                            },
+                          ),
+                        ],
+                      ),
+
+                      // ! Email address section
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -111,16 +145,51 @@ class _SigninFormScreenState extends State<SigninFormScreen> {
                             controller: _emailController,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Input tidak boleh kosong';
+                                return 'email nya diperhatikan yah';
                               }
                               if (!value.contains("@")) {
-                                return "tipe email salah";
+                                return "jaman sekarang masih ga tau cara nulis email🙄";
                               }
                               return null;
                             },
                           ),
                         ],
                       ),
+
+                      // ! Gender Section
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Choose your gender",
+                            style: GoogleFonts.quicksand(
+                              textStyle: TextStyle(
+                                fontSize: 12,
+                                color: Color(0xFF242424),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 7),
+                          DropdownFormField(
+                            label: "Gender",
+                            value: selectedGender,
+                            items: const [
+                              DropdownMenuItem(value: 'L', child: Text('cewe')),
+                              DropdownMenuItem(value: 'P', child: Text('cowo')),
+                            ],
+                            onChanged: (value) {
+                              setState(() {
+                                selectedGender = value;
+                              });
+                            },
+                            validator: (v) =>
+                                v == null ? 'Pilih dulu kocak!' : null,
+                          ),
+                        ],
+                      ),
+
+                      // ! Password section
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -159,6 +228,46 @@ class _SigninFormScreenState extends State<SigninFormScreen> {
                           ),
                         ],
                       ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Confirm Password",
+                            style: GoogleFonts.quicksand(
+                              textStyle: TextStyle(
+                                fontSize: 12,
+                                color: Color(0xFF242424),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 7),
+                          FormTextField(
+                            obscure: _obscurePassword,
+                            keyboardType: TextInputType.visiblePassword,
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _obscurePassword = !_obscurePassword;
+                                });
+                              },
+                              icon: Iconify(
+                                _obscurePassword ? eyeClosed : eyeOpen,
+                              ),
+                            ),
+                            label: "confirm your Password",
+                            controller: _confirmPasswordController,
+                            validator: (value) {
+                              final pwAseli = _emailPasswordController.text;
+
+                              if (value != pwAseli) {
+                                return 'pw nya ga matching🙄';
+                              }
+                              return null;
+                            },
+                          ),
+                        ],
+                      ),
                       ButtonColor(
                         text: "Sign In",
                         width: double.infinity,
@@ -181,67 +290,15 @@ class _SigninFormScreenState extends State<SigninFormScreen> {
                           }
                         },
                       ),
-                      SizedBox(height: 25),
-                      Column(
-                        spacing: 20,
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Divider(
-                                  color: Colors.grey,
-                                  thickness: 1,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                ),
-                                child: Text(
-                                  "or continue with",
-                                  style: GoogleFonts.quicksand(
-                                    textStyle: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Divider(
-                                  color: Colors.grey,
-                                  thickness: 1,
-                                ),
-                              ),
-                            ],
-                          ),
-                          ButtonOutline(
-                            text: "Continue with Google",
-                            buttonIcon: Iconify(Logos.google_icon),
-                            width: double.infinity,
-                            onPressed: () {
-                              print("login google");
-                            },
-                          ),
-                          ButtonOutline(
-                            text: "Continue with Apple",
-                            buttonIcon: Iconify(Logos.apple),
-                            width: double.infinity,
-                            onPressed: () {
-                              print("login apple");
-                            },
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 35),
+
+                      SizedBox(height: 20),
                       Row(
                         spacing: 5,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Don't have an account?",
+                            "Already have an account?",
                             style: GoogleFonts.quicksand(
                               textStyle: TextStyle(
                                 fontSize: 13,
@@ -252,10 +309,10 @@ class _SigninFormScreenState extends State<SigninFormScreen> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              print("tets");
+                              Navigator.pushNamed(context, 'signin');
                             },
                             child: Text(
-                              "Sign Up",
+                              "Sign In",
                               style: GoogleFonts.quicksand(
                                 textStyle: TextStyle(
                                   fontSize: 13,

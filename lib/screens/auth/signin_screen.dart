@@ -38,6 +38,7 @@ class _SigninScreenState extends State<SigninScreen> {
                       textStyle: TextStyle(
                         color: AppColors.light.secondary,
                         fontSize: 35,
+                        height: 1.0,
                       ),
                     ),
                   ),
@@ -125,9 +126,9 @@ class _SigninScreenState extends State<SigninScreen> {
                           );
                         }
                         if (_formKey.currentState!.validate()) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Memproses data')),
-                          );
+                          ScaffoldMessenger.of(
+                            context,
+                          ).showSnackBar(SnackBar(content: Text('berhasil')));
                         }
                       },
                     ),
@@ -190,7 +191,7 @@ class _SigninScreenState extends State<SigninScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            print("tets");
+                            Navigator.pushNamed(context, 'signup');
                           },
                           child: Text(
                             "Sign Up",
