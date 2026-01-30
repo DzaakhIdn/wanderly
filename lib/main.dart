@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wanderly_app/screens/auth/signin_form_screen.dart';
 import 'package:wanderly_app/screens/auth/signin_screen.dart';
+import 'package:wanderly_app/screens/home_screen.dart';
 import 'package:wanderly_app/screens/onbboarding.dart';
 
 void main() {
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         Onbboarding.routName: (context) => Onbboarding(),
         SigninScreen.routeName: (context) => SigninScreen(),
         SigninFormScreen.routeName: (context) => SigninFormScreen(),
+        HomeScreen.routeName: (context) => HomeScreen(),
       },
     );
   }

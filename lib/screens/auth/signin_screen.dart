@@ -125,7 +125,6 @@ class _SigninScreenState extends State<SigninScreen> {
                           );
                         }
                         if (_formKey.currentState!.validate()) {
-                          // Proses jika input valid
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Memproses data')),
                           );

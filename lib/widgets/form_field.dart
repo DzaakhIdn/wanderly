@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wanderly_app/theme/app_colors.dart';
 
 class FormTextField extends StatelessWidget {
   final String label;
@@ -7,6 +8,7 @@ class FormTextField extends StatelessWidget {
   final bool obscure;
   final String? Function(String?)? validator;
   final Widget? suffixIcon;
+  final TextInputType? keyboardType;
 
   const FormTextField({
     super.key,
@@ -15,11 +17,20 @@ class FormTextField extends StatelessWidget {
     this.obscure = false,
     this.validator,
     this.suffixIcon,
+    this.keyboardType,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: keyboardType,
+      style: GoogleFonts.quicksand(
+        textStyle: TextStyle(
+          fontSize: 15,
+          color: AppColors.light.textPrimary,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
       controller: controller,
       obscureText: obscure,
       validator: validator,
