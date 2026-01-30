@@ -73,13 +73,9 @@ class AppFontSizes {
 }
 
 class AppLineHeights {
-  const AppLineHeights._(); // prevent instantiation
-
-  static double get tight => 1.2;
-
-  static double get normal => 1.4;
-
-  static double get relaxed => 1.6;
+  static const double tight = 1.2;
+  static const double normal = 1.4;
+  static const double relaxed = 1.6;
 }
 
 class AppTextStyles {
