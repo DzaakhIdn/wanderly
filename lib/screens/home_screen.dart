@@ -8,6 +8,7 @@ import 'package:wanderly_app/widgets/form_field.dart';
 import 'package:wanderly_app/widgets/navbar/navbar.dart';
 import 'package:wanderly_app/widgets/navbar/navbar_item.dart';
 import 'package:wanderly_app/widgets/popular_card.dart';
+import 'package:wanderly_app/_mock/trip_mock.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = 'home_screen';
@@ -83,24 +84,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   spacing: 10,
-                  children: [
-                    PopularCard(
-                      imgUrl: "assets/images/beach.jpg",
-                      title: "keren",
-                    ),
-                    PopularCard(
-                      imgUrl: "assets/images/lake.jpg",
-                      title: "keren",
-                    ),
-                    PopularCard(
-                      imgUrl: "assets/images/cafe.jpg",
-                      title: "keren",
-                    ),
-                    PopularCard(
-                      imgUrl: "assets/images/homestay.jpg",
-                      title: "keren",
-                    ),
-                  ],
+                  children: tripMockData
+                      .map(
+                        (trip) => PopularCard(
+                          imgUrl: trip.imagePath,
+                          title: trip.title,
+                          star: trip.rating,
+                        ),
+                      )
+                      .toList(),
                 ),
               ),
             ],
