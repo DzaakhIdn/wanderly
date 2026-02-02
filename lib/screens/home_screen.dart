@@ -4,8 +4,10 @@ import 'package:wanderly_app/theme/app_colors.dart';
 import 'package:wanderly_app/theme/font_style.dart';
 import 'package:wanderly_app/theme/icon_sets.dart';
 import 'package:wanderly_app/widgets/category_card.dart';
+import 'package:wanderly_app/widgets/form_field.dart';
 import 'package:wanderly_app/widgets/navbar/navbar.dart';
 import 'package:wanderly_app/widgets/navbar/navbar_item.dart';
+import 'package:wanderly_app/widgets/popular_card.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = 'home_screen';
@@ -16,25 +18,90 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final _searchControler = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.light.background,
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsetsGeometry.only(top: 50, right: 20, left: 20),
+          padding: EdgeInsets.only(top: 55, right: 24, left: 24),
           child: Column(
+            spacing: 15,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text("Halo Cuy!", style: AppTextStyles.h1(context)),
                   Text(
-                    "Halo Cuy!",
-                    style: AppTextStyles.h1(context, FontEngine.google),
+                    "Welcome to wanderly",
+                    style: AppTextStyles.onBoarding(context),
                   ),
                 ],
               ),
-              CategoryCard(icon: homeIcon, label: "rumah"),
-              SizedBox(height: 100),
+              SizedBox(height: 15),
+              FormTextField(
+                label: "Enter name or category ",
+                controller: _searchControler,
+                suffixIcon: Icon(Icons.search_rounded, color: Colors.grey),
+              ),
+              SizedBox(height: 10),
+              Text("Category", style: AppTextStyles.h3(context)),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  spacing: 10,
+                  children: [
+                    CategoryCard(
+                      icon: topIcon,
+                      label: "Top 30 Places",
+                      iconColor: Colors.yellow[800],
+                    ),
+                    CategoryCard(
+                      icon: treeIcon,
+                      label: "Nature",
+                      iconColor: Colors.green[400],
+                    ),
+                    CategoryCard(
+                      icon: foodIcon,
+                      label: "Restoraunt",
+                      iconColor: Colors.deepOrange,
+                    ),
+                    CategoryCard(
+                      icon: homeStay,
+                      label: "Night Stay",
+                      iconColor: Colors.blue[900],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 10),
+              Text("Category", style: AppTextStyles.h3(context)),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  spacing: 10,
+                  children: [
+                    PopularCard(
+                      imgUrl:
+                          "https://images.unsplash.com/photo-1529419412599-7bb870e11810?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                      title: "keren",
+                    ),
+                    PopularCard(
+                      imgUrl:
+                          "https://images.unsplash.com/photo-1529419412599-7bb870e11810?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                      title: "keren",
+                    ),
+                    PopularCard(
+                      imgUrl:
+                          "https://images.unsplash.com/photo-1529419412599-7bb870e11810?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                      title: "keren",
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

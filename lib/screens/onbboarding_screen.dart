@@ -6,9 +6,7 @@ import 'package:wanderly_app/widgets/button_alternative.dart';
 
 class Onbboarding extends StatelessWidget {
   static const routName = '/';
-  Onbboarding({super.key});
-
-  final testControler = TextEditingController();
+  const Onbboarding({super.key});
 
   @override
   Widget build(BuildContext context) {

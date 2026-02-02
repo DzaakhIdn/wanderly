@@ -25,7 +25,7 @@ class _SignupScreenState extends State<SignupScreen> {
       body: Stack(
         children: [
           Padding(
-            padding: EdgeInsetsGeometry.only(right: 50, left: 50, top: 100),
+            padding: EdgeInsets.only(right: 50, left: 50, top: 100),
             child: SizedBox(
               width: double.infinity,
               child: Column(

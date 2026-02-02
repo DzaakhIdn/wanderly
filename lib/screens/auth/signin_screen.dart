@@ -26,7 +26,7 @@ class _SigninScreenState extends State<SigninScreen> {
       body: Stack(
         children: [
           Padding(
-            padding: EdgeInsetsGeometry.only(right: 50, left: 50, top: 90),
+            padding: EdgeInsets.only(right: 50, left: 50, top: 90),
             child: SizedBox(
               width: double.infinity,
               child: Column(
