@@ -78,25 +78,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(height: 10),
-              Text("Category", style: AppTextStyles.h3(context)),
+              Text("Popular", style: AppTextStyles.h3(context)),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   spacing: 10,
                   children: [
                     PopularCard(
-                      imgUrl:
-                          "https://images.unsplash.com/photo-1529419412599-7bb870e11810?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                      imgUrl: "assets/images/beach.jpg",
                       title: "keren",
                     ),
                     PopularCard(
-                      imgUrl:
-                          "https://images.unsplash.com/photo-1529419412599-7bb870e11810?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                      imgUrl: "assets/images/lake.jpg",
                       title: "keren",
                     ),
                     PopularCard(
-                      imgUrl:
-                          "https://images.unsplash.com/photo-1529419412599-7bb870e11810?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                      imgUrl: "assets/images/cafe.jpg",
+                      title: "keren",
+                    ),
+                    PopularCard(
+                      imgUrl: "assets/images/homestay.jpg",
                       title: "keren",
                     ),
                   ],
