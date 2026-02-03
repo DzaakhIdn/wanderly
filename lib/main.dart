@@ -5,6 +5,7 @@ import 'package:wanderly_app/screens/auth/signup_form_screen.dart';
 import 'package:wanderly_app/screens/auth/signup_screen.dart';
 import 'package:wanderly_app/screens/home_screen.dart';
 import 'package:wanderly_app/screens/onbboarding_screen.dart';
+import 'package:wanderly_app/screens/saved_trip_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         HomeScreen.routeName: (context) => HomeScreen(),
         SignupScreen.routeName: (context) => SignupScreen(),
         SignupFormScreen.routeName: (context) => SignupFormScreen(),
+        SavedTripScreen.routName: (context) => SavedTripScreen(),
       },
     );
   }
