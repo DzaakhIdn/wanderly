@@ -157,14 +157,6 @@ Kami menerima kontribusi dari siapa saja! Silakan:
 4. Push ke branch (`git push origin feature/AmazingFeature`)
 5. Buat Pull Request
 
----
-
-## 📄 Lisensi
-
-Project ini dilisensikan di bawah MIT License - lihat file [LICENSE](LICENSE) untuk detail.
-
----
-
 ## 📞 Kontak & Support
 
 Jika Anda memiliki pertanyaan atau saran, silakan buat issue di repository ini atau hubungi tim development.
