@@ -8,9 +8,30 @@ Wanderly adalah aplikasi travel planning yang dirancang untuk membantu Anda meng
 
 ## 📱 Screenshots
 
-| Onboarding | Sign In | Home | Saved Trips |
-|:---:|:---:|:---:|:---:|
-| ![Onboarding](assets/screenshoots/onboarding.png) | ![Sign In](assets/screenshoots/signin.png) | ![Home](assets/screenshoots/home.png) | ![Saved Trips](assets/screenshoots/saved.png) |
+<div align="center">
+  <table>
+    <tr>
+      <td width="50%">
+        <img src="assets/screenshoots/onboarding.png" alt="Onboarding" width="100%">
+        <p><b>Onboarding</b></p>
+      </td>
+      <td width="50%">
+        <img src="assets/screenshoots/signin.png" alt="Sign In" width="100%">
+        <p><b>Sign In</b></p>
+      </td>
+    </tr>
+    <tr>
+      <td width="50%">
+        <img src="assets/screenshoots/home.png" alt="Home" width="100%">
+        <p><b>Home</b></p>
+      </td>
+      <td width="50%">
+        <img src="assets/screenshoots/saved.png" alt="Saved Trips" width="100%">
+        <p><b>Saved Trips</b></p>
+      </td>
+    </tr>
+  </table>
+</div>
 
 ---
 
