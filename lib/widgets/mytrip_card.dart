@@ -1,23 +1,24 @@
-import 'package:el_tooltip/el_tooltip.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:wanderly_app/theme/app_colors.dart';
 import 'package:wanderly_app/theme/font_style.dart';
+import 'package:wanderly_app/_mock/mytrips.dart';
 
 class MytripCard extends StatefulWidget {
   final void Function()? onTap;
   final String imagePath;
   final String title;
+  final String address;
   final String dateStart;
   final String dateEnd;
   final String category;
-  final String categoryIcon;
+  final Widget categoryIcon;
 
   const MytripCard({
     super.key,
     this.onTap,
     required this.title,
+    required this.address,
     required this.category,
     required this.categoryIcon,
     required this.dateStart,
@@ -72,7 +73,6 @@ class _MytripCardState extends State<MytripCard> {
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 8,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,7 +83,7 @@ class _MytripCardState extends State<MytripCard> {
                           children: [
                             Text(
                               widget.title,
-                              style: AppTextStyles.h2(context),
+                              style: AppTextStyles.h3(context),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -99,11 +99,7 @@ class _MytripCardState extends State<MytripCard> {
                               child: Row(
                                 spacing: 6,
                                 children: [
-                                  Iconify(
-                                    widget.categoryIcon,
-                                    size: 14,
-                                    color: AppColors.light.secondary,
-                                  ),
+                                  widget.categoryIcon,
                                   Text(
                                     widget.category,
                                     style: GoogleFonts.quicksand(
@@ -118,16 +114,95 @@ class _MytripCardState extends State<MytripCard> {
                           ],
                         ),
                       ),
-                      ElTooltip(
-                        content: Text("ayam"),
+                      PopupMenuButton<String>(
+                        padding: EdgeInsets.zero,
                         color: AppColors.light.secondary,
-                        showModal: false,
-                        position: ElTooltipPosition.leftCenter,
-                        child: Icon(Icons.more_vert_sharp),
+                        icon: Icon(Icons.more_vert),
+                        onSelected: (value) {
+                          if (value == 'edit') {
+                          } else if (value == 'delete') {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text(
+                                    "are you sure??!",
+                                    style: GoogleFonts.quicksand(
+                                      textStyle: TextStyle(
+                                        color: AppColors.light.error,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  content: Text(
+                                    "Kamu yakin mau hapus item ini huh?!",
+                                    style: GoogleFonts.quicksand(
+                                      textStyle: TextStyle(
+                                        color: AppColors.light.textPrimary,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {},
+                                      child: Text("iya"),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                        },
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            value: 'edit',
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.edit,
+                                  size: 18,
+                                  color: Color(0xFF2F4BB9),
+                                ),
+                                SizedBox(width: 8),
+                                Text(
+                                  'Edit',
+                                  style: GoogleFonts.quicksand(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF2F4BB9),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          PopupMenuItem(
+                            value: 'delete',
+                            child: Row(
+                              children: [
+                                Icon(Icons.delete, size: 18, color: Colors.red),
+                                SizedBox(width: 8),
+                                Text(
+                                  'Delete',
+                                  style: GoogleFonts.quicksand(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  Text("Alamat", style: AppTextStyles.bodyStrong(context)),
+                  Text(
+                    widget.address,
+                    style: AppTextStyles.bodyStrong(context),
+                  ),
+                  SizedBox(height: 5),
                   Text(
                     "${widget.dateStart} - ${widget.dateEnd}",
                     style: GoogleFonts.quicksand(

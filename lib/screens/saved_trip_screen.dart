@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:wanderly_app/_mock/mytrips.dart';
 import 'package:wanderly_app/theme/app_colors.dart';
 import 'package:wanderly_app/theme/icon_sets.dart';
 import 'package:wanderly_app/widgets/mytrip_card.dart';
@@ -34,7 +35,23 @@ class _SavedTripScreenState extends State<SavedTripScreen> {
                   ),
                   child: Row(
                     children: [
-                      SizedBox(width: 40),
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Container(
+                          width: 41,
+                          height: 41,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF2F4BB9),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(
+                            Icons.chevron_left_rounded,
+                            color: Colors.white,
+                            size: 24,
+                          ),
+                        ),
+                      ),
+
                       Expanded(
                         child: Center(
                           child: Text(
@@ -47,22 +64,7 @@ class _SavedTripScreenState extends State<SavedTripScreen> {
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Container(
-                          width: 41,
-                          height: 41,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF2F4BB9),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Icon(
-                            Icons.add,
-                            color: Colors.white,
-                            size: 24,
-                          ),
-                        ),
-                      ),
+                      SizedBox(width: 40),
                     ],
                   ),
                 ),
@@ -131,17 +133,19 @@ class _SavedTripScreenState extends State<SavedTripScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: _selectedTab == 0
                       ? Column(
-                          children: [
-                            MytripCard(
-                              category: "beach",
-                              dateEnd: "12 Feb 25",
-                              dateStart: "20 Jan 25",
-                              imagePath:
-                                  "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?q=80&w=1196&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                              title: "Pantai Senja",
-                              categoryIcon: treeIcon,
-                            ),
-                          ],
+                          children: trips
+                              .map(
+                                (trip) => MytripCard(
+                                  title: trip.title,
+                                  address: trip.address,
+                                  category: trip.category,
+                                  categoryIcon: trip.categoryIcon,
+                                  dateStart: trip.dateStart,
+                                  dateEnd: trip.dateEnd,
+                                  imagePath: trip.imagePath,
+                                ),
+                              )
+                              .toList(),
                         )
                       : Column(children: [Text("Passed Trips Content")]),
                 ),

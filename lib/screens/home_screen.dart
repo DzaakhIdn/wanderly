@@ -33,8 +33,8 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Padding(
               padding: EdgeInsets.only(
                 top: 55,
-                right: 24,
-                left: 24,
+                right: 20,
+                left: 20,
                 bottom: 150,
               ),
               child: Column(
@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  Text("Discover Other Trip", style: AppTextStyles.h3(context)),
+                  Text("Discover Other Trip", style: AppTextStyles.h2(context)),
                   Column(
                     spacing: 10,
                     children: tripMockData
