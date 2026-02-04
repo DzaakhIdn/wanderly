@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wanderly_app/theme/app_colors.dart';
 import 'package:wanderly_app/theme/font_style.dart';
-import 'package:wanderly_app/_mock/mytrips.dart';
 
 class MytripCard extends StatefulWidget {
   final void Function()? onTap;
+  final void Function()? onEdit;
+  final void Function()? onDelete;
   final String imagePath;
   final String title;
   final String address;
@@ -17,6 +18,8 @@ class MytripCard extends StatefulWidget {
   const MytripCard({
     super.key,
     this.onTap,
+    this.onEdit,
+    this.onDelete,
     required this.title,
     required this.address,
     required this.category,
@@ -120,6 +123,7 @@ class _MytripCardState extends State<MytripCard> {
                         icon: Icon(Icons.more_vert),
                         onSelected: (value) {
                           if (value == 'edit') {
+                            widget.onEdit?.call();
                           } else if (value == 'delete') {
                             showDialog(
                               context: context,
@@ -146,8 +150,18 @@ class _MytripCardState extends State<MytripCard> {
                                   ),
                                   actions: [
                                     TextButton(
-                                      onPressed: () {},
-                                      child: Text("iya"),
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text("Batal"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        widget.onDelete?.call();
+                                      },
+                                      child: Text(
+                                        "Hapus",
+                                        style: TextStyle(color: Colors.red),
+                                      ),
                                     ),
                                   ],
                                 );

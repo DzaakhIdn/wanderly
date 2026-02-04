@@ -19,6 +19,204 @@ class SavedTripScreen extends StatefulWidget {
 class _SavedTripScreenState extends State<SavedTripScreen> {
   int _selectedTab = 0;
 
+  void _handleEdit(int index) {
+    final trip = trips[index];
+    final titleController = TextEditingController(text: trip.title);
+    final addressController = TextEditingController(text: trip.address);
+    final dateStartController = TextEditingController(text: trip.dateStart);
+    final dateEndController = TextEditingController(text: trip.dateEnd);
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Edit Trip",
+            style: GoogleFonts.quicksand(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 12,
+              children: [
+                TextField(
+                  controller: titleController,
+                  decoration: InputDecoration(
+                    labelText: "Title",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+                TextField(
+                  controller: addressController,
+                  decoration: InputDecoration(
+                    labelText: "Address",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+                TextField(
+                  controller: dateStartController,
+                  decoration: InputDecoration(
+                    labelText: "Date Start",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+                TextField(
+                  controller: dateEndController,
+                  decoration: InputDecoration(
+                    labelText: "Date End",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  trips[index] = trips[index].copyWith(
+                    title: titleController.text,
+                    address: addressController.text,
+                    dateStart: dateStartController.text,
+                    dateEnd: dateEndController.text,
+                  );
+                });
+                Navigator.pop(context);
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text('berhasil ubah')));
+              },
+              child: Text("Save", style: TextStyle(color: Colors.blue)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _handleDelete(int index) {
+    setState(() {
+      trips.removeAt(index);
+    });
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('Trip deleted')));
+  }
+
+  void _handleEditPassed(int index) {
+    final trip = tripsPassed[index];
+    final titleController = TextEditingController(text: trip.title);
+    final addressController = TextEditingController(text: trip.address);
+    final dateStartController = TextEditingController(text: trip.dateStart);
+    final dateEndController = TextEditingController(text: trip.dateEnd);
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Edit Trip",
+            style: GoogleFonts.quicksand(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 12,
+              children: [
+                TextField(
+                  controller: titleController,
+                  decoration: InputDecoration(
+                    labelText: "Title",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+                TextField(
+                  controller: addressController,
+                  decoration: InputDecoration(
+                    labelText: "Address",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+                TextField(
+                  controller: dateStartController,
+                  decoration: InputDecoration(
+                    labelText: "Date Start",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+                TextField(
+                  controller: dateEndController,
+                  decoration: InputDecoration(
+                    labelText: "Date End",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  tripsPassed[index] = tripsPassed[index].copyWith(
+                    title: titleController.text,
+                    address: addressController.text,
+                    dateStart: dateStartController.text,
+                    dateEnd: dateEndController.text,
+                  );
+                });
+                Navigator.pop(context);
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text('Trip updated')));
+              },
+              child: Text("Save", style: TextStyle(color: Colors.blue)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _handleDeletePassed(int index) {
+    setState(() {
+      tripsPassed.removeAt(index);
+    });
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('Trip deleted')));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,20 +332,43 @@ class _SavedTripScreenState extends State<SavedTripScreen> {
                   child: _selectedTab == 0
                       ? Column(
                           children: trips
+                              .asMap()
+                              .entries
                               .map(
-                                (trip) => MytripCard(
-                                  title: trip.title,
-                                  address: trip.address,
-                                  category: trip.category,
-                                  categoryIcon: trip.categoryIcon,
-                                  dateStart: trip.dateStart,
-                                  dateEnd: trip.dateEnd,
-                                  imagePath: trip.imagePath,
+                                (entry) => MytripCard(
+                                  title: entry.value.title,
+                                  address: entry.value.address,
+                                  category: entry.value.category,
+                                  categoryIcon: entry.value.categoryIcon,
+                                  dateStart: entry.value.dateStart,
+                                  dateEnd: entry.value.dateEnd,
+                                  imagePath: entry.value.imagePath,
+                                  onEdit: () => _handleEdit(entry.key),
+                                  onDelete: () => _handleDelete(entry.key),
                                 ),
                               )
                               .toList(),
                         )
-                      : Column(children: [Text("Passed Trips Content")]),
+                      : Column(
+                          children: tripsPassed
+                              .asMap()
+                              .entries
+                              .map(
+                                (entry) => MytripCard(
+                                  title: entry.value.title,
+                                  address: entry.value.address,
+                                  category: entry.value.category,
+                                  categoryIcon: entry.value.categoryIcon,
+                                  dateStart: entry.value.dateStart,
+                                  dateEnd: entry.value.dateEnd,
+                                  imagePath: entry.value.imagePath,
+                                  onEdit: () => _handleEditPassed(entry.key),
+                                  onDelete: () =>
+                                      _handleDeletePassed(entry.key),
+                                ),
+                              )
+                              .toList(),
+                        ),
                 ),
                 SizedBox(height: 100),
               ],
