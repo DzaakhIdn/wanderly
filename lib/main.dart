@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:wanderly_app/models/trip.dart';
 import 'package:wanderly_app/screens/auth/signin_form_screen.dart';
 import 'package:wanderly_app/screens/auth/signin_screen.dart';
 import 'package:wanderly_app/screens/auth/signup_form_screen.dart';
@@ -6,9 +10,15 @@ import 'package:wanderly_app/screens/auth/signup_screen.dart';
 import 'package:wanderly_app/screens/home_screen.dart';
 import 'package:wanderly_app/screens/onbboarding_screen.dart';
 import 'package:wanderly_app/screens/saved_trip_screen.dart';
+// import 'package:path_provider/path_provider.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // final documentsDir = await getApplicationDocumentsDirectory();
+  Hive.initFlutter();
+  Hive.registerAdapter(MyTripAdapter());
+  await Hive.openBox<MyTrip>("myTrips");
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

@@ -58,15 +58,15 @@ class TripCategory {
     categoryIcon: Iconify(treeIcon, size: 14, color: AppColors.light.secondary),
   );
   static var resto = TripCategory(
-    title: "Nature",
+    title: "Resto",
     categoryIcon: Iconify(foodIcon, size: 14, color: AppColors.light.secondary),
   );
   static var homestay = TripCategory(
-    title: "Nature",
+    title: "Homestay",
     categoryIcon: Iconify(homeStay, size: 14, color: AppColors.light.secondary),
   );
   static var hotel = TripCategory(
-    title: "Nature",
+    title: "Hotel",
     categoryIcon: Iconify(
       hotelIcon,
       size: 14,

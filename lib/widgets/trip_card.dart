@@ -8,7 +8,7 @@ class TripCard extends StatelessWidget {
   final String title;
   final String location;
   final String category;
-  final String categoryIcon;
+  final dynamic categoryIcon;
   final double rating;
   final int reviews;
   final VoidCallback? onTap;

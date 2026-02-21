@@ -1,3 +1,4 @@
+import 'package:wanderly_app/_mock/mytrips.dart';
 import 'package:wanderly_app/theme/icon_sets.dart';
 
 class Trip {
@@ -5,8 +6,8 @@ class Trip {
   final String title;
   final String imagePath;
   final String location;
-  final String category;
-  final String categoryIcon;
+  final TripCategory category;
+  final TripCategory? categoryIcon;
   final double rating;
   final int reviews;
   final String price;
@@ -17,7 +18,7 @@ class Trip {
     required this.imagePath,
     required this.location,
     required this.category,
-    required this.categoryIcon,
+    this.categoryIcon,
     required this.rating,
     required this.reviews,
     required this.price,
@@ -30,8 +31,7 @@ final List<Trip> tripMockData = [
     title: 'Pantai Indah Kapok',
     location: 'Jakarta',
     imagePath: 'assets/images/beach.jpg',
-    category: 'Beach',
-    categoryIcon: treeIcon,
+    category: TripCategory.nature,
     rating: 4.8,
     reviews: 36,
     price: '\$40.0/night',
@@ -41,8 +41,7 @@ final List<Trip> tripMockData = [
     title: 'Kafe Cozy Seru',
     location: 'Bali',
     imagePath: 'assets/images/cafe.jpg',
-    category: 'Restaurant',
-    categoryIcon: foodIcon,
+    category: TripCategory.resto,
     rating: 4.5,
     reviews: 28,
     price: '\$25.0/hour',
@@ -52,8 +51,7 @@ final List<Trip> tripMockData = [
     title: 'Homestay Nyaman',
     location: 'Sulawesi Timur',
     imagePath: 'assets/images/homestay.jpg',
-    category: 'Homestay',
-    categoryIcon: homeIcon,
+    category: TripCategory.homestay,
     rating: 4.7,
     reviews: 42,
     price: '\$35.0/night',
@@ -63,8 +61,7 @@ final List<Trip> tripMockData = [
     title: 'Danau Tenang',
     location: 'Jawa Tenggara',
     imagePath: 'assets/images/lake.jpg',
-    category: 'Nature',
-    categoryIcon: treeIcon,
+    category: TripCategory.nature,
     rating: 4.9,
     reviews: 51,
     price: '\$20.0/entry',
@@ -74,8 +71,7 @@ final List<Trip> tripMockData = [
     title: 'Gunung Megah',
     location: 'Daerah Istimewa',
     imagePath: 'assets/images/mountain.jpg',
-    category: 'Mountain',
-    categoryIcon: treeIcon,
+    category: TripCategory.nature,
     rating: 4.6,
     reviews: 38,
     price: '\$15.0/entry',
