@@ -10,13 +10,14 @@ import 'package:wanderly_app/screens/auth/signup_screen.dart';
 import 'package:wanderly_app/screens/home_screen.dart';
 import 'package:wanderly_app/screens/onbboarding_screen.dart';
 import 'package:wanderly_app/screens/saved_trip_screen.dart';
-// import 'package:path_provider/path_provider.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // final documentsDir = await getApplicationDocumentsDirectory();
-  Hive.initFlutter();
-  Hive.registerAdapter(MyTripAdapter());
+  // Hive.initFlutter();
+  // Hive.registerAdapter(MyTripAdapter());
+  final documentsDir = await getApplicationDocumentsDirectory();
+  Hive.init(documentsDir.path);
   await Hive.openBox<MyTrip>("myTrips");
   runApp(ProviderScope(child: const MyApp()));
 }
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
       routes: {
         Onbboarding.routName: (context) => Onbboarding(),
         SigninScreen.routeName: (context) => SigninScreen(),
-        SigninFormScreen.routeName: (context) => SigninFormScreen(),
+        SigninFormScreen.routeName: (conext) => SigninFormScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),
         SignupScreen.routeName: (context) => SignupScreen(),
         SignupFormScreen.routeName: (context) => SignupFormScreen(),

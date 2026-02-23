@@ -8,7 +8,7 @@ class TripCard extends StatelessWidget {
   final String title;
   final String location;
   final String category;
-  final dynamic categoryIcon;
+  final Widget categoryIcon;
   final double rating;
   final int reviews;
   final VoidCallback? onTap;
@@ -84,11 +84,7 @@ class TripCard extends StatelessWidget {
                         child: Row(
                           spacing: 6,
                           children: [
-                            Iconify(
-                              categoryIcon,
-                              size: 16,
-                              color: AppColors.light.primary,
-                            ),
+                            categoryIcon,
                             Text(
                               category,
                               style: GoogleFonts.quicksand(

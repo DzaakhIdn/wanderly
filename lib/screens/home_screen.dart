@@ -115,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             title: trip.title,
                             location: trip.location,
                             category: trip.category.title,
-                            categoryIcon: trip.categoryIcon?.categoryIcon,
+                            categoryIcon: trip.category.categoryIcon,
                             rating: trip.rating,
                             reviews: trip.reviews,
                           ),

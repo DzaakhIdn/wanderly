@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:wanderly_app/_mock/mytrips.dart';
+import 'package:wanderly_app/models/trip.dart';
+import 'package:wanderly_app/provider/trip_provider.dart';
 import 'package:wanderly_app/theme/app_colors.dart';
 import 'package:wanderly_app/theme/icon_sets.dart';
 import 'package:wanderly_app/widgets/mytrip_card.dart';
 import 'package:wanderly_app/widgets/navbar/navbar.dart';
 import 'package:wanderly_app/widgets/navbar/navbar_item.dart';
 
-class SavedTripScreen extends StatefulWidget {
+
+class SavedTripScreen extends ConsumerStatefulWidget {
   static const routName = 'saved_trip';
   const SavedTripScreen({super.key});
 
   @override
-  State<SavedTripScreen> createState() => _SavedTripScreenState();
+  ConsumerState<SavedTripScreen> createState() => _SavedTripScreenState();
 }
 
-class _SavedTripScreenState extends State<SavedTripScreen> {
+class _SavedTripScreenState extends ConsumerState<SavedTripScreen> {
   int _selectedTab = 0;
 
   void _handleEdit(int index) {
