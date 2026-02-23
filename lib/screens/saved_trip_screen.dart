@@ -11,7 +11,6 @@ import 'package:wanderly_app/widgets/mytrip_card.dart';
 import 'package:wanderly_app/widgets/navbar/navbar.dart';
 import 'package:wanderly_app/widgets/navbar/navbar_item.dart';
 
-
 class SavedTripScreen extends ConsumerStatefulWidget {
   static const routName = 'saved_trip';
   const SavedTripScreen({super.key});
@@ -223,6 +222,8 @@ class _SavedTripScreenState extends ConsumerState<SavedTripScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final myTrips = ref.watch(myTripNotifierProvider);
+
     return Scaffold(
       backgroundColor: AppColors.light.background,
       body: Stack(
@@ -237,23 +238,7 @@ class _SavedTripScreenState extends ConsumerState<SavedTripScreen> {
                   ),
                   child: Row(
                     children: [
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Container(
-                          width: 41,
-                          height: 41,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF2F4BB9),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Icon(
-                            Icons.chevron_left_rounded,
-                            color: Colors.white,
-                            size: 24,
-                          ),
-                        ),
-                      ),
-
+                      SizedBox(width: 40),
                       Expanded(
                         child: Center(
                           child: Text(
@@ -334,24 +319,33 @@ class _SavedTripScreenState extends ConsumerState<SavedTripScreen> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: _selectedTab == 0
-                      ? Column(
-                          children: trips
-                              .asMap()
-                              .entries
-                              .map(
-                                (entry) => MytripCard(
-                                  title: entry.value.title,
-                                  address: entry.value.address,
-                                  category: entry.value.category,
-                                  categoryIcon: entry.value.categoryIcon,
-                                  dateStart: entry.value.dateStart,
-                                  dateEnd: entry.value.dateEnd,
-                                  imagePath: entry.value.imagePath,
-                                  onEdit: () => _handleEdit(entry.key),
-                                  onDelete: () => _handleDelete(entry.key),
+                      ? ListView.builder(
+                          itemCount: myTrips.length,
+                          itemBuilder: (context, index) {
+                            final mytrip = myTrips[index];
+
+                            if (myTrips.isEmpty) {
+                              Center(
+                                child: Container(
+                                  height: 200,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: Colors
+                                        .blueGrey, // A color can be used alongside the image
+                                    borderRadius: BorderRadius.circular(12),
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                        'assets/images/folder.png',
+                                      ), // Use AssetImage for local assets
+                                      fit: BoxFit
+                                          .cover, // Ensure the image covers the entire container
+                                      alignment: Alignment.center,
+                                    ),
+                                  ),
                                 ),
-                              )
-                              .toList(),
+                              );
+                            }
+                          },
                         )
                       : Column(
                           children: tripsPassed
@@ -376,6 +370,15 @@ class _SavedTripScreenState extends ConsumerState<SavedTripScreen> {
                 ),
                 SizedBox(height: 100),
               ],
+            ),
+          ),
+          Positioned(
+            bottom: 120, // Di atas navbar
+            right: 20,
+            child: FloatingActionButton(
+              onPressed: () {},
+              backgroundColor: AppColors.light.primary,
+              child: Icon(Icons.add, color: Colors.white),
             ),
           ),
           Positioned(
