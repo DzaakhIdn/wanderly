@@ -10,8 +10,8 @@ class MytripCard extends StatefulWidget {
   final String imagePath;
   final String title;
   final String address;
-  final String dateStart;
-  final String dateEnd;
+  final DateTime dateStart;
+  final DateTime dateEnd;
   final String category;
   final Widget categoryIcon;
 

@@ -7,6 +7,7 @@ import 'package:wanderly_app/models/trip.dart';
 import 'package:wanderly_app/provider/trip_provider.dart';
 import 'package:wanderly_app/theme/app_colors.dart';
 import 'package:wanderly_app/theme/icon_sets.dart';
+import 'package:wanderly_app/widgets/bottom_dialog.dart';
 import 'package:wanderly_app/widgets/mytrip_card.dart';
 import 'package:wanderly_app/widgets/navbar/navbar.dart';
 import 'package:wanderly_app/widgets/navbar/navbar_item.dart';
@@ -21,6 +22,21 @@ class SavedTripScreen extends ConsumerStatefulWidget {
 
 class _SavedTripScreenState extends ConsumerState<SavedTripScreen> {
   int _selectedTab = 0;
+
+  Widget _getCategoryIcon(String category) {
+    switch (category.toLowerCase()) {
+      case 'nature':
+        return TripCategory.nature.categoryIcon;
+      case 'resto':
+        return TripCategory.resto.categoryIcon;
+      case 'homestay':
+        return TripCategory.homestay.categoryIcon;
+      case 'hotel':
+        return TripCategory.hotel.categoryIcon;
+      default:
+        return Icon(Icons.place, size: 16, color: Colors.grey);
+    }
+  }
 
   void _handleEdit(int index) {
     final trip = trips[index];
@@ -319,54 +335,71 @@ class _SavedTripScreenState extends ConsumerState<SavedTripScreen> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: _selectedTab == 0
-                      ? ListView.builder(
-                          itemCount: myTrips.length,
-                          itemBuilder: (context, index) {
-                            final mytrip = myTrips[index];
-
-                            if (myTrips.isEmpty) {
-                              Center(
-                                child: Container(
-                                  height: 200,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: Colors
-                                        .blueGrey, // A color can be used alongside the image
-                                    borderRadius: BorderRadius.circular(12),
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                        'assets/images/folder.png',
-                                      ), // Use AssetImage for local assets
-                                      fit: BoxFit
-                                          .cover, // Ensure the image covers the entire container
-                                      alignment: Alignment.center,
-                                    ),
+                      ? myTrips.isEmpty
+                            ? Container(
+                                height: 400,
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 150,
+                                        width: 150,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                              'assets/images/folder.png',
+                                            ),
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 20),
+                                      Text(
+                                        "No trips yet",
+                                        style: GoogleFonts.quicksand(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.grey[600],
+                                        ),
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        "Add your first trip to get started",
+                                        style: GoogleFonts.quicksand(
+                                          fontSize: 14,
+                                          color: Colors.grey[500],
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              );
-                            }
-                          },
-                        )
-                      : Column(
-                          children: tripsPassed
-                              .asMap()
-                              .entries
-                              .map(
-                                (entry) => MytripCard(
-                                  title: entry.value.title,
-                                  address: entry.value.address,
-                                  category: entry.value.category,
-                                  categoryIcon: entry.value.categoryIcon,
-                                  dateStart: entry.value.dateStart,
-                                  dateEnd: entry.value.dateEnd,
-                                  imagePath: entry.value.imagePath,
-                                  onEdit: () => _handleEditPassed(entry.key),
-                                  onDelete: () =>
-                                      _handleDeletePassed(entry.key),
-                                ),
                               )
-                              .toList(),
-                        ),
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: myTrips.length,
+                                itemBuilder: (context, index) {
+                                  final mytrip = myTrips[index];
+                                  return MytripCard(
+                                    title: mytrip.title,
+                                    address: mytrip.address,
+                                    category: mytrip.category,
+                                    categoryIcon: _getCategoryIcon(
+                                      mytrip.category,
+                                    ),
+                                    dateStart: mytrip.dateStart,
+                                    dateEnd: mytrip.dateEnd,
+                                    imagePath: mytrip.imagePath,
+                                    onEdit: () => _handleEdit(index),
+                                    onDelete: () => _handleDelete(index),
+                                  );
+                                },
+                              )
+                      : Column(children: []),
                 ),
                 SizedBox(height: 100),
               ],
@@ -376,46 +409,49 @@ class _SavedTripScreenState extends ConsumerState<SavedTripScreen> {
             bottom: 120, // Di atas navbar
             right: 20,
             child: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                showBottomDialog(context, ref);
+              },
               backgroundColor: AppColors.light.primary,
               child: Icon(Icons.add, color: Colors.white),
             ),
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Navbar(
-              items: [
-                NavbarItem(
-                  icon: Iconify(homeIcon, size: 35),
-                  onTap: () {
-                    Navigator.pushNamed(context, 'home_screen');
-                  },
-                  defaultColor: Colors.grey,
-                  selectedColor: AppColors.light.primary,
-                ),
-                NavbarItem(
-                  icon: Iconify(mapIcon, size: 35),
-                  onTap: () {
-                    Navigator.pushNamed(context, 'saved_trip');
-                  },
-                  defaultColor: Colors.grey,
-                  selectedColor: AppColors.light.primary,
-                ),
-                NavbarItem(
-                  icon: Iconify(seacrchIcon, size: 35),
-                  onTap: () {},
-                  defaultColor: Colors.grey,
-                  selectedColor: AppColors.light.primary,
-                ),
-                NavbarItem(
-                  icon: Iconify(userIcon, size: 35),
-                  onTap: () {},
-                  defaultColor: Colors.grey,
-                  selectedColor: AppColors.light.primary,
-                ),
-              ],
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: Navbar(
+                items: [
+                  NavbarItem(
+                    icon: Iconify(homeIcon, size: 35),
+                    onTap: () {
+                      Navigator.pushNamed(context, 'home_screen');
+                    },
+                    defaultColor: Colors.grey,
+                    selectedColor: AppColors.light.primary,
+                  ),
+                  NavbarItem(
+                    icon: Iconify(mapIcon, size: 35),
+                    onTap: () {
+                      Navigator.pushNamed(context, 'saved_trip');
+                    },
+                    defaultColor: Colors.grey,
+                    selectedColor: AppColors.light.primary,
+                  ),
+                  NavbarItem(
+                    icon: Iconify(seacrchIcon, size: 35),
+                    onTap: () {},
+                    defaultColor: Colors.grey,
+                    selectedColor: AppColors.light.primary,
+                  ),
+                  NavbarItem(
+                    icon: Iconify(userIcon, size: 35),
+                    onTap: () {},
+                    defaultColor: Colors.grey,
+                    selectedColor: AppColors.light.primary,
+                  ),
+                ],
+              ),
             ),
           ),
         ],

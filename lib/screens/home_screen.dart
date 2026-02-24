@@ -129,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           Positioned(
-            bottom: 0,
+            bottom: 20,
             left: 0,
             right: 0,
             child: Navbar(

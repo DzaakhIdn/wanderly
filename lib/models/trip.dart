@@ -1,5 +1,5 @@
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:wanderly_app/_mock/mytrips.dart';
 
 part 'trip.g.dart';
 
@@ -35,4 +35,20 @@ class MyTrip extends HiveObject {
     required this.dateEnd,
     this.isDone,
   });
+
+  // Getter untuk categoryIcon berdasarkan category
+  Widget get categoryIcon {
+    switch (category.toLowerCase()) {
+      case 'nature':
+        return Icon(Icons.nature, size: 16, color: Colors.green);
+      case 'resto':
+        return Icon(Icons.restaurant, size: 16, color: Colors.orange);
+      case 'homestay':
+        return Icon(Icons.home, size: 16, color: Colors.blue);
+      case 'hotel':
+        return Icon(Icons.hotel, size: 16, color: Colors.purple);
+      default:
+        return Icon(Icons.place, size: 16, color: Colors.grey);
+    }
+  }
 }
