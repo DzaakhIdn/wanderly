@@ -7,6 +7,7 @@ import 'package:wanderly_app/provider/trip_provider.dart';
 import 'package:wanderly_app/theme/app_colors.dart';
 import 'package:wanderly_app/theme/icon_sets.dart';
 import 'package:wanderly_app/widgets/bottom_dialog.dart';
+import 'package:wanderly_app/widgets/modal_dialog.dart';
 import 'package:wanderly_app/widgets/mytrip_card.dart';
 import 'package:wanderly_app/widgets/navbar/navbar.dart';
 import 'package:wanderly_app/widgets/navbar/navbar_item.dart';
@@ -391,7 +392,8 @@ class _SavedTripScreenState extends ConsumerState<SavedTripScreen> {
                                     dateStart: mytrip.dateStart,
                                     dateEnd: mytrip.dateEnd,
                                     imagePath: mytrip.imagePath,
-                                    onEdit: () => _handleEdit(index),
+                                    onEdit: () =>
+                                        showDialogModal(context, ref, index),
                                     onDelete: () => _handleDelete(index),
                                   );
                                 },
