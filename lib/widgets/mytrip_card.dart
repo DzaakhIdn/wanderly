@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:wanderly_app/theme/app_colors.dart';
 import 'package:wanderly_app/theme/font_style.dart';
 
@@ -59,7 +60,7 @@ class _MytripCardState extends State<MytripCard> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 image: DecorationImage(
-                  image: NetworkImage(widget.imagePath),
+                  image: AssetImage(widget.imagePath),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -218,7 +219,7 @@ class _MytripCardState extends State<MytripCard> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    "${widget.dateStart} - ${widget.dateEnd}",
+                    "${DateFormat('dd MMM yyyy').format(widget.dateStart)} - ${DateFormat('dd MMM yyyy').format(widget.dateEnd)}",
                     style: GoogleFonts.quicksand(
                       fontSize: 13,
                       color: Colors.grey[600],

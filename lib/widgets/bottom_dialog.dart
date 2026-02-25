@@ -6,7 +6,6 @@ import 'package:wanderly_app/provider/trip_provider.dart';
 import 'package:wanderly_app/theme/app_colors.dart';
 import 'package:wanderly_app/widgets/button_alternative.dart';
 import 'package:wanderly_app/widgets/form_field.dart';
-import 'package:wanderly_app/provider/trip_provider.dart';
 
 void showBottomDialog(BuildContext context, WidgetRef ref) {
   final tripNameController = TextEditingController();
@@ -22,7 +21,7 @@ void showBottomDialog(BuildContext context, WidgetRef ref) {
         builder: (context, setState) {
           return Container(
             decoration: BoxDecoration(
-              color: Colors.white10,
+              color: Colors.white,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(24),
                 topRight: Radius.circular(24),
@@ -37,7 +36,6 @@ void showBottomDialog(BuildContext context, WidgetRef ref) {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 12,
               children: [
                 Row(
                   spacing: 10,
@@ -83,173 +81,76 @@ void showBottomDialog(BuildContext context, WidgetRef ref) {
                     ),
                   ],
                 ),
-                const SizedBox(height: 24),
-
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Nama Trip",
-                      style: GoogleFonts.quicksand(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    FormTextField(
-                      label: "Masukkan nama trip mu",
-                      controller: tripNameController,
-                    ),
-                  ],
+                SizedBox(height: 16),
+                Text(
+                  "Nama Trip",
+                  style: GoogleFonts.quicksand(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
+                  ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Pilih Destinasi",
-                      style: GoogleFonts.quicksand(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Autocomplete<Trip>(
-                      optionsBuilder: (TextEditingValue textEditingValue) {
-                        if (textEditingValue.text.isEmpty) {
-                          return const Iterable<Trip>.empty();
-                        }
-                        final results = tripMockData.where((Trip option) {
-                          return option.title.toLowerCase().contains(
-                                textEditingValue.text.toLowerCase(),
-                              ) ||
-                              option.location.toLowerCase().contains(
-                                textEditingValue.text.toLowerCase(),
-                              );
-                        });
-                        return results;
-                      },
-                      displayStringForOption: (Trip option) => option.title,
-                      fieldViewBuilder:
-                          (
-                            context,
-                            textEditingController,
-                            focusNode,
-                            onFieldSubmitted,
-                          ) {
-                            return TextField(
-                              controller: textEditingController,
-                              focusNode: focusNode,
-                              decoration: InputDecoration(
-                                hintText: "Cari destinasi...",
-                                hintStyle: GoogleFonts.quicksand(
-                                  color: Color(0xFFA1A1A1),
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                filled: true,
-                                fillColor: Colors.grey[100],
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide.none,
-                                ),
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 14,
-                                ),
-                              ),
-                            );
-                          },
-                      optionsViewBuilder: (context, onSelected, options) {
-                        return Align(
-                          alignment: Alignment.topCenter,
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 10),
-                            child: Material(
-                              elevation: 8,
+                FormTextField(
+                  label: "Masukkan nama trip mu",
+                  controller: tripNameController,
+                ),
+                SizedBox(height: 16),
+                Text(
+                  "Pilih Destinasi",
+                  style: GoogleFonts.quicksand(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Autocomplete<Trip>(
+                  optionsBuilder: (TextEditingValue textEditingValue) {
+                    if (textEditingValue.text.isEmpty) {
+                      return const Iterable<Trip>.empty();
+                    }
+                    return tripMockData.where((Trip option) {
+                      return option.title.toLowerCase().contains(
+                            textEditingValue.text.toLowerCase(),
+                          ) ||
+                          option.location.toLowerCase().contains(
+                            textEditingValue.text.toLowerCase(),
+                          );
+                    });
+                  },
+                  displayStringForOption: (Trip option) => option.title,
+                  fieldViewBuilder:
+                      (context, controller, focusNode, onSubmitted) {
+                        return TextField(
+                          controller: controller,
+                          focusNode: focusNode,
+                          decoration: InputDecoration(
+                            hintText: "Cari destinasi...",
+                            hintStyle: GoogleFonts.quicksand(
+                              color: Color(0xFFA1A1A1),
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            filled: true,
+                            fillColor: Colors.grey[100],
+                            border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              child: Container(
-                                constraints: BoxConstraints(maxHeight: 200),
-                                decoration: BoxDecoration(
-                                  color: AppColors.light.surface,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: options.isEmpty
-                                    ? Container(
-                                        height: 10,
-                                        width: double.infinity,
-                                        child: Padding(
-                                          padding: EdgeInsets.all(16),
-                                          child: Center(
-                                            child: Text(
-                                              "Tujuan tidak tersedia",
-                                              style: GoogleFonts.quicksand(
-                                                fontSize: 14,
-                                                color: Colors.grey[600],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    : ListView.builder(
-                                        padding: EdgeInsets.all(8),
-                                        shrinkWrap: true,
-                                        itemCount: options.length,
-                                        itemBuilder: (context, index) {
-                                          final Trip option = options.elementAt(
-                                            index,
-                                          );
-                                          return InkWell(
-                                            onTap: () => onSelected(option),
-                                            borderRadius: BorderRadius.circular(
-                                              8,
-                                            ),
-                                            child: Container(
-                                              padding: EdgeInsets.all(12),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    option.title,
-                                                    style:
-                                                        GoogleFonts.quicksand(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                                  ),
-                                                  SizedBox(height: 4),
-                                                  Text(
-                                                    option.location,
-                                                    style:
-                                                        GoogleFonts.quicksand(
-                                                          fontSize: 12,
-                                                          color:
-                                                              Colors.grey[600],
-                                                        ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                              ),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 14,
                             ),
                           ),
                         );
                       },
-                      onSelected: (Trip selection) {
-                        setState(() {
-                          selectedTrip = selection;
-                        });
-                        debugPrint('Selected: ${selection.title}');
-                        debugPrint('All trip data: ${selection.toString()}');
-                      },
-                    ),
-                  ],
+                  onSelected: (Trip selection) {
+                    setState(() {
+                      selectedTrip = selection;
+                    });
+                  },
                 ),
+                SizedBox(height: 16),
                 Row(
                   spacing: 12,
                   children: [
@@ -386,36 +287,45 @@ void showBottomDialog(BuildContext context, WidgetRef ref) {
                     ),
                   ],
                 ),
+                SizedBox(height: 24),
                 ButtonColor(
-                  text: "Save",
+                  text: 'Simpan Trip',
                   width: double.infinity,
                   onPressed: () {
                     if (tripNameController.text.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Nama trip ga bole kosong")),
+                        SnackBar(content: Text('Nama trip harus diisi')),
                       );
                       return;
                     }
                     if (selectedTrip == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("pilih destinasi")),
+                        SnackBar(
+                          content: Text('Pilih destinasi terlebih dahulu'),
+                        ),
                       );
                       return;
                     }
                     if (startDate == null || endDate == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("isi tanggal nya")),
+                        SnackBar(
+                          content: Text('Pilih tanggal mulai dan selesai'),
+                        ),
                       );
                       return;
                     }
+
                     ref
                         .read(myTripNotifierProvider.notifier)
                         .addMyTrip(
                           tripNameController.text,
+                          selectedTrip!.location,
+                          selectedTrip!.category.title,
+                          selectedTrip!.imagePath,
                           startDate!,
                           endDate!,
-                          selectedTrip!.id,
                         );
+
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Trip berhasil ditambahkan!')),
@@ -430,57 +340,3 @@ void showBottomDialog(BuildContext context, WidgetRef ref) {
     },
   );
 }
-
-                // SizedBox(height: 24),
-                // ButtonColor(
-                //   text: 'Simpan Trip',
-                //   width: double.infinity,
-                //   onPressed: () {
-                //     // Validasi
-                //     if (tripNameController.text.isEmpty) {
-                //       ScaffoldMessenger.of(context).showSnackBar(
-                //         SnackBar(content: Text('Nama trip harus diisi')),
-                //       );
-                //       return;
-                //     }
-                //     if (selectedTrip == null) {
-                //       ScaffoldMessenger.of(context).showSnackBar(
-                //         SnackBar(content: Text('Pilih destinasi terlebih dahulu')),
-                //       );
-                //       return;
-                //     }
-                //     if (startDate == null || endDate == null) {
-                //       ScaffoldMessenger.of(context).showSnackBar(
-                //         SnackBar(content: Text('Pilih tanggal mulai dan selesai')),
-                //       );
-                //       return;
-                //     }
-
-                //     // Ambil semua data
-                //     debugPrint('=== DATA TRIP ===');
-                //     debugPrint('Nama Trip: ${tripNameController.text}');
-                //     debugPrint('Destinasi: ${selectedTrip!.title}');
-                //     debugPrint('Lokasi: ${selectedTrip!.location}');
-                //     debugPrint('Category: ${selectedTrip!.category.title}');
-                //     debugPrint('Image: ${selectedTrip!.imagePath}');
-                //     debugPrint('Rating: ${selectedTrip!.rating}');
-                //     debugPrint('Reviews: ${selectedTrip!.reviews}');
-                //     debugPrint('Price: ${selectedTrip!.price}');
-                //     debugPrint('Tanggal Mulai: $startDate');
-                //     debugPrint('Tanggal Selesai: $endDate');
-                //     debugPrint('================');
-
-                //     // TODO: Simpan ke provider/database
-                //     // ref.read(myTripNotifierProvider.notifier).addMyTrip(
-                //     //   tripNameController.text,
-                //     //   startDate!,
-                //     //   endDate!,
-                //     //   selectedTrip!.id,
-                //     // );
-
-                //     Navigator.pop(context);
-                //     ScaffoldMessenger.of(context).showSnackBar(
-                //       SnackBar(content: Text('Trip berhasil ditambahkan!')),
-                //     );
-                //   },
-                // ),

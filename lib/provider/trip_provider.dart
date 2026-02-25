@@ -16,17 +16,17 @@ class MyTripNotifier extends _$MyTripNotifier {
 
   Future<void> addMyTrip(
     String title,
+    String address,
+    String category,
+    String imagePath,
     DateTime dateStart,
     DateTime dateEnd,
-    templateIndex,
   ) async {
-    final template = trips[templateIndex];
-
     final newMyTrip = MyTrip(
       title: title,
-      address: template.title,
-      category: template.category,
-      imagePath: template.imagePath,
+      address: address,
+      category: category,
+      imagePath: imagePath,
       dateStart: dateStart,
       dateEnd: dateEnd,
     );

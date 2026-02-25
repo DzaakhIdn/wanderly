@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:wanderly_app/_mock/mytrips.dart';
-import 'package:wanderly_app/models/trip.dart';
 import 'package:wanderly_app/provider/trip_provider.dart';
 import 'package:wanderly_app/theme/app_colors.dart';
 import 'package:wanderly_app/theme/icon_sets.dart';
@@ -129,9 +128,7 @@ class _SavedTripScreenState extends ConsumerState<SavedTripScreen> {
   }
 
   void _handleDelete(int index) {
-    setState(() {
-      trips.removeAt(index);
-    });
+    ref.read(myTripNotifierProvider.notifier).deleteMyTrip(index);
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text('Trip deleted')));

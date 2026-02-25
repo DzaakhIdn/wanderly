@@ -15,7 +15,8 @@ class HiveService {
   }
 
   Future<void> deleteMytrip(int index) async {
-    await _box.delete(index);
+    final key = _box.keyAt(index);
+    await _box.delete(key);
   }
 
   Future<void> updateMyList(int index, MyTrip trip) async {
