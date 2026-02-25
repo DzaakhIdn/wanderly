@@ -14,10 +14,9 @@ import 'package:path_provider/path_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Hive.initFlutter();
-  // Hive.registerAdapter(MyTripAdapter());
   final documentsDir = await getApplicationDocumentsDirectory();
   Hive.init(documentsDir.path);
+  Hive.registerAdapter(MyTripAdapter());
   await Hive.openBox<MyTrip>("myTrips");
   runApp(ProviderScope(child: const MyApp()));
 }
