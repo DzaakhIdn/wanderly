@@ -36,7 +36,6 @@ class MyTrip extends HiveObject {
     this.isDone,
   });
 
-  // Getter untuk categoryIcon berdasarkan category
   Widget get categoryIcon {
     switch (category.toLowerCase()) {
       case 'nature':

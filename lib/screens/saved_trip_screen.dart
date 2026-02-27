@@ -38,197 +38,8 @@ class _SavedTripScreenState extends ConsumerState<SavedTripScreen> {
     }
   }
 
-  void _handleEdit(int index) {
-    final trip = trips[index];
-    final titleController = TextEditingController(text: trip.title);
-    final addressController = TextEditingController(text: trip.address);
-    final dateStartController = TextEditingController(text: trip.dateStart);
-    final dateEndController = TextEditingController(text: trip.dateEnd);
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            "Edit Trip",
-            style: GoogleFonts.quicksand(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              spacing: 12,
-              children: [
-                TextField(
-                  controller: titleController,
-                  decoration: InputDecoration(
-                    labelText: "Title",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-                TextField(
-                  controller: addressController,
-                  decoration: InputDecoration(
-                    labelText: "Address",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-                TextField(
-                  controller: dateStartController,
-                  decoration: InputDecoration(
-                    labelText: "Date Start",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-                TextField(
-                  controller: dateEndController,
-                  decoration: InputDecoration(
-                    labelText: "Date End",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  trips[index] = trips[index].copyWith(
-                    title: titleController.text,
-                    address: addressController.text,
-                    dateStart: dateStartController.text,
-                    dateEnd: dateEndController.text,
-                  );
-                });
-                Navigator.pop(context);
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text('berhasil ubah')));
-              },
-              child: Text("Save", style: TextStyle(color: Colors.blue)),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   void _handleDelete(int index) {
     ref.read(myTripNotifierProvider.notifier).deleteMyTrip(index);
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('Trip deleted')));
-  }
-
-  void _handleEditPassed(int index) {
-    final trip = tripsPassed[index];
-    final titleController = TextEditingController(text: trip.title);
-    final addressController = TextEditingController(text: trip.address);
-    final dateStartController = TextEditingController(text: trip.dateStart);
-    final dateEndController = TextEditingController(text: trip.dateEnd);
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            "Edit Trip",
-            style: GoogleFonts.quicksand(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              spacing: 12,
-              children: [
-                TextField(
-                  controller: titleController,
-                  decoration: InputDecoration(
-                    labelText: "Title",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-                TextField(
-                  controller: addressController,
-                  decoration: InputDecoration(
-                    labelText: "Address",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-                TextField(
-                  controller: dateStartController,
-                  decoration: InputDecoration(
-                    labelText: "Date Start",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-                TextField(
-                  controller: dateEndController,
-                  decoration: InputDecoration(
-                    labelText: "Date End",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  tripsPassed[index] = tripsPassed[index].copyWith(
-                    title: titleController.text,
-                    address: addressController.text,
-                    dateStart: dateStartController.text,
-                    dateEnd: dateEndController.text,
-                  );
-                });
-                Navigator.pop(context);
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text('Trip updated')));
-              },
-              child: Text("Save", style: TextStyle(color: Colors.blue)),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _handleDeletePassed(int index) {
-    setState(() {
-      tripsPassed.removeAt(index);
-    });
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text('Trip deleted')));
@@ -237,6 +48,10 @@ class _SavedTripScreenState extends ConsumerState<SavedTripScreen> {
   @override
   Widget build(BuildContext context) {
     final myTrips = ref.watch(myTripNotifierProvider);
+
+    // Filter trips berdasarkan isDone
+    final activeTrips = myTrips.where((trip) => trip.isDone != true).toList();
+    final passedTrips = myTrips.where((trip) => trip.isDone == true).toList();
 
     return Scaffold(
       backgroundColor: AppColors.light.background,
@@ -333,7 +148,7 @@ class _SavedTripScreenState extends ConsumerState<SavedTripScreen> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: _selectedTab == 0
-                      ? myTrips.isEmpty
+                      ? activeTrips.isEmpty
                             ? Container(
                                 height: 400,
                                 child: Center(
@@ -379,9 +194,9 @@ class _SavedTripScreenState extends ConsumerState<SavedTripScreen> {
                             : ListView.builder(
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
-                                itemCount: myTrips.length,
+                                itemCount: activeTrips.length,
                                 itemBuilder: (context, index) {
-                                  final mytrip = myTrips[index];
+                                  final mytrip = activeTrips[index];
                                   return MytripCard(
                                     title: mytrip.title,
                                     address: mytrip.address,
@@ -392,13 +207,89 @@ class _SavedTripScreenState extends ConsumerState<SavedTripScreen> {
                                     dateStart: mytrip.dateStart,
                                     dateEnd: mytrip.dateEnd,
                                     imagePath: mytrip.imagePath,
-                                    onEdit: () =>
-                                        showDialogModal(context, ref, index),
+                                    onEdit: () => showDialogModal(
+                                      context,
+                                      ref,
+                                      index,
+                                      myTrips,
+                                    ),
                                     onDelete: () => _handleDelete(index),
                                   );
                                 },
                               )
-                      : Column(children: []),
+                      : Column(
+                          children: [
+                            passedTrips.isEmpty
+                                ? Container(
+                                    height: 400,
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            height: 150,
+                                            width: 150,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              image: DecorationImage(
+                                                image: AssetImage(
+                                                  'assets/images/folder.png',
+                                                ),
+                                                fit: BoxFit.contain,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(height: 20),
+                                          Text(
+                                            "No passed trips yet",
+                                            style: GoogleFonts.quicksand(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.grey[600],
+                                            ),
+                                          ),
+                                          SizedBox(height: 8),
+                                          Text(
+                                            "Complete your first trip to get started",
+                                            style: GoogleFonts.quicksand(
+                                              fontSize: 14,
+                                              color: Colors.grey[500],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                : ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: passedTrips.length,
+                                    itemBuilder: (context, index) {
+                                      final mytrip = passedTrips[index];
+                                      return MytripCard(
+                                        title: mytrip.title,
+                                        address: mytrip.address,
+                                        category: mytrip.category,
+                                        categoryIcon: _getCategoryIcon(
+                                          mytrip.category,
+                                        ),
+                                        dateStart: mytrip.dateStart,
+                                        dateEnd: mytrip.dateEnd,
+                                        imagePath: mytrip.imagePath,
+                                        onEdit: () => showDialogModal(
+                                          context,
+                                          ref,
+                                          index,
+                                          myTrips,
+                                        ),
+                                        onDelete: () => _handleDelete(index),
+                                      );
+                                    },
+                                  ),
+                          ],
+                        ),
                 ),
                 SizedBox(height: 100),
               ],

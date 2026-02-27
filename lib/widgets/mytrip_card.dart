@@ -85,11 +85,13 @@ class _MytripCardState extends State<MytripCard> {
                         child: Row(
                           spacing: 10,
                           children: [
-                            Text(
-                              widget.title,
-                              style: AppTextStyles.h3(context),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                            Flexible(
+                              child: Text(
+                                widget.title,
+                                style: AppTextStyles.h3(context),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                             Container(
                               padding: EdgeInsets.symmetric(
@@ -213,6 +215,7 @@ class _MytripCardState extends State<MytripCard> {
                       ),
                     ],
                   ),
+                  SizedBox(height: 8),
                   Text(
                     widget.address,
                     style: AppTextStyles.bodyStrong(context),

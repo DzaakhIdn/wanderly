@@ -29,6 +29,7 @@ class MyTripNotifier extends _$MyTripNotifier {
       imagePath: imagePath,
       dateStart: dateStart,
       dateEnd: dateEnd,
+      isDone: false,
     );
 
     await _services.addMyTrip(newMyTrip);
@@ -40,16 +41,22 @@ class MyTripNotifier extends _$MyTripNotifier {
     state = _services.getMyTrip();
   }
 
-  Future<void> updateMyTrip(int index) async {
+  Future<void> updateMyTrip(
+    int index,
+    String title,
+    DateTime dateStart,
+    DateTime dateEnd,
+  ) async {
     final oldTrip = state[index];
 
     final updated = MyTrip(
-      title: oldTrip.title,
+      title: title,
       address: oldTrip.address,
       category: oldTrip.category,
       imagePath: oldTrip.imagePath,
-      dateStart: oldTrip.dateStart,
-      dateEnd: oldTrip.dateEnd,
+      dateStart: dateStart,
+      dateEnd: dateEnd,
+      isDone: oldTrip.isDone,
     );
 
     await _services.updateMyList(index, updated);
