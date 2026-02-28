@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:wanderly_app/theme/app_colors.dart';
 
 class TripCard extends StatelessWidget {
@@ -47,11 +46,23 @@ class TripCard extends StatelessWidget {
               width: 68,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                image: DecorationImage(
-                  image: AssetImage(imagePath),
-                  fit: BoxFit.cover,
-                ),
+                color: imagePath.isEmpty ? Colors.grey[200] : null,
+                image: imagePath.isEmpty
+                    ? null
+                    : DecorationImage(
+                        image: AssetImage(imagePath),
+                        fit: BoxFit.cover,
+                      ),
               ),
+              child: imagePath.isEmpty
+                  ? Center(
+                      child: Icon(
+                        Icons.image_not_supported_outlined,
+                        color: Colors.grey[400],
+                        size: 32,
+                      ),
+                    )
+                  : null,
             ),
             Expanded(
               child: Column(
@@ -63,14 +74,16 @@ class TripCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     spacing: 8,
                     children: [
-                      Text(
-                        title,
-                        style: GoogleFonts.quicksand(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
+                      Flexible(
+                        child: Text(
+                          title,
+                          style: GoogleFonts.quicksand(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
                       ),
                       Container(
                         padding: EdgeInsets.symmetric(

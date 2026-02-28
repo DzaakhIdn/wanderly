@@ -16,8 +16,8 @@ void showDialogModal(
 ) {
   final trip = mytrip[index];
   final namaTrip = TextEditingController(text: trip.title);
-  DateTime? startDate = trip.dateStart;
-  DateTime? endDate = trip.dateEnd;
+  DateTime? startDate = trip.dateStartAsDateTime;
+  DateTime? endDate = trip.dateEndAsDateTime;
 
   showDialog(
     context: context,
@@ -113,7 +113,7 @@ void showDialogModal(
                                 onTap: () async {
                                   final DateTime? picked = await showDatePicker(
                                     context: context,
-                                    initialDate: trip.dateStart,
+                                    initialDate: startDate ?? DateTime.now(),
                                     firstDate: DateTime.now(),
                                     lastDate: DateTime(2030),
                                   );

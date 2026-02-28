@@ -321,6 +321,7 @@ void showBottomDialog(BuildContext context, WidgetRef ref) {
                           tripNameController.text,
                           selectedTrip!.location,
                           selectedTrip!.category.title,
+                          selectedTrip!.description,
                           selectedTrip!.imagePath,
                           startDate!,
                           endDate!,

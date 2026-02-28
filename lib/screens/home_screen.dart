@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:wanderly_app/screens/trip_detail.dart';
 import 'package:wanderly_app/theme/app_colors.dart';
 import 'package:wanderly_app/theme/font_style.dart';
 import 'package:wanderly_app/theme/icon_sets.dart';
@@ -11,6 +12,7 @@ import 'package:wanderly_app/widgets/navbar/navbar_item.dart';
 import 'package:wanderly_app/widgets/popular_card.dart';
 import 'package:wanderly_app/_mock/trip_mock.dart';
 import 'package:wanderly_app/widgets/trip_card.dart';
+import 'package:wanderly_app/screens/discover_all_trips_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = 'home_screen';
@@ -94,6 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Row(
                       spacing: 10,
                       children: tripMockData
+                          .take(5)
                           .map(
                             (trip) => PopularCard(
                               imgUrl: trip.imagePath,
@@ -109,6 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Column(
                     spacing: 10,
                     children: tripMockData
+                        .take(5)
                         .map(
                           (trip) => TripCard(
                             imagePath: trip.imagePath,
@@ -118,12 +122,28 @@ class _HomeScreenState extends State<HomeScreen> {
                             categoryIcon: trip.category.categoryIcon,
                             rating: trip.rating,
                             reviews: trip.reviews,
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                TripDetailScreen.routeName,
+                                arguments: trip.id.toInt(),
+                              );
+                            },
                           ),
                         )
                         .toList(),
                   ),
                   SizedBox(height: 15),
-                  ButtonColor(text: "Discover More", width: double.infinity),
+                  ButtonColor(
+                    text: "Discover More",
+                    width: double.infinity,
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        DiscoverAllTripsScreen.routeName,
+                      );
+                    },
+                  ),
                 ],
               ),
             ),

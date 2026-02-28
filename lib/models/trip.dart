@@ -18,23 +18,30 @@ class MyTrip extends HiveObject {
   String category;
 
   @HiveField(4)
-  DateTime dateStart;
+  String description;
 
   @HiveField(5)
-  DateTime dateEnd;
+  String dateStart;
 
   @HiveField(6)
+  String dateEnd;
+
+  @HiveField(7)
   bool? isDone;
 
   MyTrip({
     required this.title,
     required this.address,
     required this.category,
+    required this.description,
     required this.imagePath,
     required this.dateStart,
     required this.dateEnd,
     this.isDone,
   });
+
+  DateTime get dateStartAsDateTime => DateTime.parse(dateStart);
+  DateTime get dateEndAsDateTime => DateTime.parse(dateEnd);
 
   Widget get categoryIcon {
     switch (category.toLowerCase()) {

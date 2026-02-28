@@ -1,5 +1,4 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wanderly_app/_mock/mytrips.dart';
 import '../models/trip.dart';
 import '../services/hive_service.dart';
 
@@ -18,6 +17,7 @@ class MyTripNotifier extends _$MyTripNotifier {
     String title,
     String address,
     String category,
+    String description,
     String imagePath,
     DateTime dateStart,
     DateTime dateEnd,
@@ -26,9 +26,10 @@ class MyTripNotifier extends _$MyTripNotifier {
       title: title,
       address: address,
       category: category,
+      description: description,
       imagePath: imagePath,
-      dateStart: dateStart,
-      dateEnd: dateEnd,
+      dateStart: dateStart.toIso8601String(),
+      dateEnd: dateEnd.toIso8601String(),
       isDone: false,
     );
 
@@ -53,9 +54,10 @@ class MyTripNotifier extends _$MyTripNotifier {
       title: title,
       address: oldTrip.address,
       category: oldTrip.category,
+      description: oldTrip.description,
       imagePath: oldTrip.imagePath,
-      dateStart: dateStart,
-      dateEnd: dateEnd,
+      dateStart: dateStart.toIso8601String(),
+      dateEnd: dateEnd.toIso8601String(),
       isDone: oldTrip.isDone,
     );
 

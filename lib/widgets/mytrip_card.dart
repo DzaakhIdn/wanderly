@@ -11,8 +11,8 @@ class MytripCard extends StatefulWidget {
   final String imagePath;
   final String title;
   final String address;
-  final DateTime dateStart;
-  final DateTime dateEnd;
+  final String dateStart;
+  final String dateEnd;
   final String category;
   final Widget categoryIcon;
 
@@ -222,7 +222,7 @@ class _MytripCardState extends State<MytripCard> {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    "${DateFormat('dd MMM yyyy').format(widget.dateStart)} - ${DateFormat('dd MMM yyyy').format(widget.dateEnd)}",
+                    "${DateFormat('dd MMM yyyy').format(DateTime.parse(widget.dateStart))} - ${DateFormat('dd MMM yyyy').format(DateTime.parse(widget.dateEnd))}",
                     style: GoogleFonts.quicksand(
                       fontSize: 13,
                       color: Colors.grey[600],
