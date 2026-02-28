@@ -55,22 +55,18 @@ class TripCategory {
 
   static var nature = TripCategory(
     title: "Nature",
-    categoryIcon: Iconify(treeIcon, size: 14, color: AppColors.light.secondary),
+    categoryIcon: Iconify(treeIcon, size: 14, color: AppColors.light.primary),
   );
   static var resto = TripCategory(
     title: "Resto",
-    categoryIcon: Iconify(foodIcon, size: 14, color: AppColors.light.secondary),
+    categoryIcon: Iconify(foodIcon, size: 14, color: AppColors.light.primary),
   );
   static var homestay = TripCategory(
     title: "Homestay",
-    categoryIcon: Iconify(homeStay, size: 14, color: AppColors.light.secondary),
+    categoryIcon: Iconify(homeStay, size: 14, color: AppColors.light.primary),
   );
   static var hotel = TripCategory(
     title: "Hotel",
-    categoryIcon: Iconify(
-      hotelIcon,
-      size: 14,
-      color: AppColors.light.secondary,
-    ),
+    categoryIcon: Iconify(hotelIcon, size: 14, color: AppColors.light.primary),
   );
 }
