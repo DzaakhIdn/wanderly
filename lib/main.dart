@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
@@ -20,6 +21,7 @@ void main() async {
   Hive.init(documentsDir.path);
   Hive.registerAdapter(MyTripAdapter());
   await Hive.openBox<MyTrip>("myTrips");
+  await Firebase.initializeApp();
   runApp(ProviderScope(child: const MyApp()));
 }
 

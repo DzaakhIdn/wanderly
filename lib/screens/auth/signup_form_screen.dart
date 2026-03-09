@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:wanderly_app/providers/auth_provider.dart';
 import 'package:wanderly_app/theme/app_colors.dart';
 import 'package:wanderly_app/theme/icon_sets.dart';
 import 'package:wanderly_app/widgets/button_alternative.dart';
 import 'package:wanderly_app/widgets/dropdown_alternative.dart';
 import 'package:wanderly_app/widgets/form_field.dart';
 
-class SignupFormScreen extends StatefulWidget {
+class SignupFormScreen extends ConsumerStatefulWidget {
   static const routeName = 'signup_form';
   const SignupFormScreen({super.key});
 
   @override
-  State<SignupFormScreen> createState() => _SignupFormScreenState();
+  ConsumerState<SignupFormScreen> createState() => _SignupFormScreenState();
 }
 
-class _SignupFormScreenState extends State<SignupFormScreen> {
+class _SignupFormScreenState extends ConsumerState<SignupFormScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _fullNameController = TextEditingController();
@@ -269,11 +271,13 @@ class _SignupFormScreenState extends State<SignupFormScreen> {
                         ],
                       ),
                       ButtonColor(
-                        text: "Sign In",
+                        text: "Sign Up",
                         width: double.infinity,
                         onPressed: () {
                           final email = _emailController.text;
                           final pw = _emailPasswordController.text;
+                          final usn = _fullNameController.text;
+                          final gender = selectedGender!;
                           if (email.isEmpty || pw.isEmpty) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -282,9 +286,18 @@ class _SignupFormScreenState extends State<SignupFormScreen> {
                             );
                           }
                           if (_formKey.currentState!.validate()) {
+                            ref
+                                .read(authServiceProvider)
+                                .register(
+                                  email: email,
+                                  password: pw,
+                                  username: usn,
+                                  gender: gender,
+                                );
+
                             Navigator.pushNamedAndRemoveUntil(
                               context,
-                              "home_screen",
+                              "signin",
                               (Route<dynamic> route) => false,
                             );
                           }

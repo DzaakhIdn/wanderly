@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:wanderly_app/_mock/mytrips.dart';
-import 'package:wanderly_app/provider/trip_provider.dart';
+import 'package:wanderly_app/providers/trip_provider.dart';
 import 'package:wanderly_app/theme/app_colors.dart';
 import 'package:wanderly_app/theme/icon_sets.dart';
 import 'package:wanderly_app/widgets/bottom_dialog.dart';

@@ -1,21 +1,23 @@
 import 'package:colorful_iconify_flutter/icons/logos.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:wanderly_app/providers/auth_provider.dart';
 import 'package:wanderly_app/theme/app_colors.dart';
 import 'package:wanderly_app/theme/icon_sets.dart';
 import 'package:wanderly_app/widgets/button_alternative.dart';
 import 'package:wanderly_app/widgets/form_field.dart';
 
-class SigninFormScreen extends StatefulWidget {
+class SigninFormScreen extends ConsumerStatefulWidget {
   static const routeName = 'signin_form';
   const SigninFormScreen({super.key});
 
   @override
-  State<SigninFormScreen> createState() => _SigninFormScreenState();
+  ConsumerState<SigninFormScreen> createState() => _SigninFormScreenState();
 }
 
-class _SigninFormScreenState extends State<SigninFormScreen> {
+class _SigninFormScreenState extends ConsumerState<SigninFormScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _emailPasswordController =
@@ -173,6 +175,10 @@ class _SigninFormScreenState extends State<SigninFormScreen> {
                             );
                           }
                           if (_formKey.currentState!.validate()) {
+                            ref
+                                .read(authServiceProvider)
+                                .login(email: email, password: pw);
+
                             Navigator.pushNamedAndRemoveUntil(
                               context,
                               "home_screen",

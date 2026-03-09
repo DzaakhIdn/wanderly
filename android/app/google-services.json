@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "559605180127",
+    "project_id": "wanderly-app-966a0",
+    "storage_bucket": "wanderly-app-966a0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:559605180127:android:7ab0b16299d74bfcb8ab6a",
+        "android_client_info": {
+          "package_name": "com.example.wanderly_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCV8wvkkB_q7AzL8u0ftVLPkWsi8-6ECuw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
