@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:wanderly_app/screens/trip_detail.dart';
+import 'package:wanderly_app/screens/user_profile_screen.dart';
 import 'package:wanderly_app/theme/app_colors.dart';
 import 'package:wanderly_app/theme/font_style.dart';
 import 'package:wanderly_app/theme/icon_sets.dart';
@@ -176,7 +177,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 NavbarItem(
                   icon: Iconify(userIcon, size: 35),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, UserProfileScreen.routeName);
+                  },
                   defaultColor: Colors.grey,
                   selectedColor: AppColors.light.primary,
                 ),

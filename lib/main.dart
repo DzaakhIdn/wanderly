@@ -13,6 +13,7 @@ import 'package:wanderly_app/screens/onbboarding_screen.dart';
 import 'package:wanderly_app/screens/saved_trip_screen.dart';
 import 'package:wanderly_app/screens/discover_all_trips_screen.dart';
 import 'package:wanderly_app/screens/trip_detail.dart';
+import 'package:wanderly_app/screens/user_profile_screen.dart';
 import 'package:path_provider/path_provider.dart';
 
 void main() async {
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
         SignupFormScreen.routeName: (context) => SignupFormScreen(),
         SavedTripScreen.routName: (context) => SavedTripScreen(),
         DiscoverAllTripsScreen.routeName: (context) => DiscoverAllTripsScreen(),
+        UserProfileScreen.routeName: (context) => UserProfileScreen(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == TripDetailScreen.routeName) {

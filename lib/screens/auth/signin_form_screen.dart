@@ -1,4 +1,5 @@
 import 'package:colorful_iconify_flutter/icons/logos.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -177,13 +178,11 @@ class _SigninFormScreenState extends ConsumerState<SigninFormScreen> {
                           if (_formKey.currentState!.validate()) {
                             ref
                                 .read(authServiceProvider)
-                                .login(email: email, password: pw);
-
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              "home_screen",
-                              (Route<dynamic> route) => false,
-                            );
+                                .login(
+                                  email: email,
+                                  password: pw,
+                                  context: context,
+                                );
                           }
                         },
                       ),
