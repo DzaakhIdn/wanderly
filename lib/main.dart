@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:wanderly_app/models/trip.dart';
+import 'package:wanderly_app/providers/theme_provider.dart';
 import 'package:wanderly_app/screens/auth/signin_form_screen.dart';
 import 'package:wanderly_app/screens/auth/signin_screen.dart';
 import 'package:wanderly_app/screens/auth/signup_form_screen.dart';
@@ -26,16 +27,27 @@ void main() async {
   runApp(ProviderScope(child: const MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(themeProvider);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        brightness: Brightness.light,
       ),
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+          brightness: Brightness.dark,
+        ),
+        brightness: Brightness.dark,
+      ),
+      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
       initialRoute: Onbboarding.routName,
       routes: {
         Onbboarding.routName: (context) => Onbboarding(),

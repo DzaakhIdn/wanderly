@@ -12,10 +12,7 @@ class UserProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: Replace with actual user data from provider/state
-    final userName = 'John Doe';
-    final userEmail = 'john.doe@example.com';
-    final userGender = 'Male';
+    final userAsync = ref.watch(currentUserStreamProvider);
 
     return Scaffold(
       backgroundColor: AppColors.light.background,
@@ -60,13 +57,22 @@ class UserProfileScreen extends ConsumerWidget {
               ),
               SizedBox(height: 20),
               // User Name
-              Text(
-                userName,
-                style: GoogleFonts.quicksand(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black87,
-                ),
+              userAsync.when(
+                data: (user) {
+                  if (user == null) {
+                    return Center(child: Text("Belum login"));
+                  }
+                  return Text(
+                    user.username,
+                    style: GoogleFonts.quicksand(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black87,
+                    ),
+                  );
+                },
+                loading: () => Center(child: CircularProgressIndicator()),
+                error: (e, _) => Text("Error: $e"),
               ),
               SizedBox(height: 24),
               // Profile Info Card
@@ -83,33 +89,42 @@ class UserProfileScreen extends ConsumerWidget {
                     ),
                   ],
                 ),
-                child: Column(
-                  children: [
-                    // Username Field
-                    _buildInfoField(
-                      label: 'Username',
-                      value: userName,
-                      icon: Icons.person_outline,
-                    ),
-                    SizedBox(height: 16),
-                    Divider(color: Colors.grey[200]),
-                    SizedBox(height: 16),
-                    // Email Field
-                    _buildInfoField(
-                      label: 'Email',
-                      value: userEmail,
-                      icon: Icons.email_outlined,
-                    ),
-                    SizedBox(height: 16),
-                    Divider(color: Colors.grey[200]),
-                    SizedBox(height: 16),
-                    // Gender Field
-                    _buildInfoField(
-                      label: 'Gender',
-                      value: userGender,
-                      icon: Icons.wc_outlined,
-                    ),
-                  ],
+                child: userAsync.when(
+                  data: (user) {
+                    if (user == null) {
+                      return Center(child: Text("Belum login"));
+                    }
+                    return Column(
+                      children: [
+                        // Username Field
+                        _buildInfoField(
+                          label: 'Username',
+                          value: user.username,
+                          icon: Icons.person_outline,
+                        ),
+                        SizedBox(height: 16),
+                        Divider(color: Colors.grey[200]),
+                        SizedBox(height: 16),
+                        // Email Field
+                        _buildInfoField(
+                          label: 'Email',
+                          value: user.email,
+                          icon: Icons.email_outlined,
+                        ),
+                        SizedBox(height: 16),
+                        Divider(color: Colors.grey[200]),
+                        SizedBox(height: 16),
+                        // Gender Field
+                        _buildInfoField(
+                          label: 'Gender',
+                          value: user.gender,
+                          icon: Icons.wc_outlined,
+                        ),
+                      ],
+                    );
+                  },
+                  loading: () => Center(child: CircularProgressIndicator()),
+                  error: (e, _) => Text("Error: $e"),
                 ),
               ),
               SizedBox(height: 40),

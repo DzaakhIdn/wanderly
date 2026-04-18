@@ -29,6 +29,12 @@ class MyTrip extends HiveObject {
   @HiveField(7)
   bool? isDone;
 
+  @HiveField(8)
+  String? userId;
+
+  @HiveField(9)
+  String? id;
+
   MyTrip({
     required this.title,
     required this.address,
@@ -38,6 +44,8 @@ class MyTrip extends HiveObject {
     required this.dateStart,
     required this.dateEnd,
     this.isDone,
+    this.userId,
+    this.id,
   });
 
   DateTime get dateStartAsDateTime => DateTime.parse(dateStart);

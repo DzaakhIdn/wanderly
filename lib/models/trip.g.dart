@@ -25,13 +25,15 @@ class MyTripAdapter extends TypeAdapter<MyTrip> {
       dateStart: fields[5] as String,
       dateEnd: fields[6] as String,
       isDone: fields[7] as bool?,
+      userId: fields[8] as String?,
+      id: fields[9] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, MyTrip obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
@@ -47,7 +49,11 @@ class MyTripAdapter extends TypeAdapter<MyTrip> {
       ..writeByte(6)
       ..write(obj.dateEnd)
       ..writeByte(7)
-      ..write(obj.isDone);
+      ..write(obj.isDone)
+      ..writeByte(8)
+      ..write(obj.userId)
+      ..writeByte(9)
+      ..write(obj.id);
   }
 
   @override

@@ -289,6 +289,7 @@ class _SignupFormScreenState extends ConsumerState<SignupFormScreen> {
                             ref
                                 .read(authServiceProvider)
                                 .register(
+                                  context: context,
                                   email: email,
                                   password: pw,
                                   username: usn,

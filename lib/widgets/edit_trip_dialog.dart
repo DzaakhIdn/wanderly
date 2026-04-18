@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wanderly_app/_mock/trip_mock.dart';
+import 'package:wanderly_app/models/trip.dart';
 import 'package:wanderly_app/providers/trip_provider.dart';
 import 'package:wanderly_app/theme/app_colors.dart';
 import 'package:wanderly_app/widgets/button_alternative.dart';
-import 'package:wanderly_app/widgets/form_field.dart';
 
-void showBottomDialog(BuildContext context, WidgetRef ref) {
-  final tripNameController = TextEditingController();
-  DateTime? startDate;
-  DateTime? endDate;
-  Trip? selectedTrip;
+void showEditTripDialog(
+  BuildContext context,
+  WidgetRef ref,
+  int tripIndex,
+  MyTrip trip,
+) {
+  final tripNameController = TextEditingController(text: trip.title);
+  DateTime? startDate = trip.dateStartAsDateTime;
+  DateTime? endDate = trip.dateEndAsDateTime;
 
   showModalBottomSheet(
     context: context,
@@ -19,9 +22,11 @@ void showBottomDialog(BuildContext context, WidgetRef ref) {
     builder: (dialogContext) {
       return StatefulBuilder(
         builder: (context, setState) {
+          final colors = AppColors.of(context);
+
           return Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: colors.background,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(24),
                 topRight: Radius.circular(24),
@@ -44,12 +49,12 @@ void showBottomDialog(BuildContext context, WidgetRef ref) {
                       width: 48,
                       height: 48,
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 232, 236, 245),
+                        color: colors.surface,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(
-                        Icons.save_rounded,
-                        color: AppColors.light.primary,
+                        Icons.edit_rounded,
+                        color: colors.primary,
                         size: 28,
                       ),
                     ),
@@ -58,25 +63,25 @@ void showBottomDialog(BuildContext context, WidgetRef ref) {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Add Trip",
+                            "Edit Trip",
                             style: GoogleFonts.quicksand(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
-                              color: Colors.black87,
+                              color: colors.textPrimary,
                             ),
                           ),
                           Text(
-                            'save your trip plan',
+                            'update your trip plan',
                             style: GoogleFonts.raleway(
                               fontSize: 14,
-                              color: Colors.black45,
+                              color: colors.textSecondary,
                             ),
                           ),
                         ],
                       ),
                     ),
                     IconButton(
-                      icon: Icon(Icons.close, color: Colors.black45),
+                      icon: Icon(Icons.close, color: colors.textSecondary),
                       onPressed: () => Navigator.pop(context),
                     ),
                   ],
@@ -87,68 +92,31 @@ void showBottomDialog(BuildContext context, WidgetRef ref) {
                   style: GoogleFonts.quicksand(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: Colors.black87,
-                  ),
-                ),
-                FormTextField(
-                  label: "Masukkan nama trip mu",
-                  controller: tripNameController,
-                ),
-                SizedBox(height: 16),
-                Text(
-                  "Pilih Destinasi",
-                  style: GoogleFonts.quicksand(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
+                    color: colors.textPrimary,
                   ),
                 ),
                 SizedBox(height: 8),
-                Autocomplete<Trip>(
-                  optionsBuilder: (TextEditingValue textEditingValue) {
-                    if (textEditingValue.text.isEmpty) {
-                      return const Iterable<Trip>.empty();
-                    }
-                    return tripMockData.where((Trip option) {
-                      return option.title.toLowerCase().contains(
-                            textEditingValue.text.toLowerCase(),
-                          ) ||
-                          option.location.toLowerCase().contains(
-                            textEditingValue.text.toLowerCase(),
-                          );
-                    });
-                  },
-                  displayStringForOption: (Trip option) => option.title,
-                  fieldViewBuilder:
-                      (context, controller, focusNode, onSubmitted) {
-                        return TextField(
-                          controller: controller,
-                          focusNode: focusNode,
-                          decoration: InputDecoration(
-                            hintText: "Cari destinasi...",
-                            hintStyle: GoogleFonts.quicksand(
-                              color: Color(0xFFA1A1A1),
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            filled: true,
-                            fillColor: Colors.grey[100],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide.none,
-                            ),
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 14,
-                            ),
-                          ),
-                        );
-                      },
-                  onSelected: (Trip selection) {
-                    setState(() {
-                      selectedTrip = selection;
-                    });
-                  },
+                TextField(
+                  controller: tripNameController,
+                  style: TextStyle(color: colors.textPrimary),
+                  decoration: InputDecoration(
+                    hintText: "Masukkan nama trip mu",
+                    hintStyle: GoogleFonts.quicksand(
+                      color: colors.textSecondary,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    filled: true,
+                    fillColor: colors.surface,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 14,
+                    ),
+                  ),
                 ),
                 SizedBox(height: 16),
                 Row(
@@ -163,7 +131,7 @@ void showBottomDialog(BuildContext context, WidgetRef ref) {
                             style: GoogleFonts.quicksand(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: Colors.black87,
+                              color: colors.textPrimary,
                             ),
                           ),
                           SizedBox(height: 8),
@@ -187,7 +155,7 @@ void showBottomDialog(BuildContext context, WidgetRef ref) {
                                 vertical: 14,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.grey[100],
+                                color: colors.surface,
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Row(
@@ -195,7 +163,7 @@ void showBottomDialog(BuildContext context, WidgetRef ref) {
                                   Icon(
                                     Icons.calendar_today_rounded,
                                     size: 18,
-                                    color: Colors.grey[600],
+                                    color: colors.textSecondary,
                                   ),
                                   SizedBox(width: 8),
                                   Text(
@@ -205,8 +173,8 @@ void showBottomDialog(BuildContext context, WidgetRef ref) {
                                     style: GoogleFonts.quicksand(
                                       fontSize: 14,
                                       color: startDate != null
-                                          ? Colors.black87
-                                          : Colors.grey[600],
+                                          ? colors.textPrimary
+                                          : colors.textSecondary,
                                       fontWeight: startDate != null
                                           ? FontWeight.w600
                                           : FontWeight.w500,
@@ -228,7 +196,7 @@ void showBottomDialog(BuildContext context, WidgetRef ref) {
                             style: GoogleFonts.quicksand(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: Colors.black87,
+                              color: colors.textPrimary,
                             ),
                           ),
                           SizedBox(height: 8),
@@ -253,7 +221,7 @@ void showBottomDialog(BuildContext context, WidgetRef ref) {
                                 vertical: 14,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.grey[100],
+                                color: colors.surface,
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Row(
@@ -261,7 +229,7 @@ void showBottomDialog(BuildContext context, WidgetRef ref) {
                                   Icon(
                                     Icons.calendar_today_rounded,
                                     size: 18,
-                                    color: Colors.grey[600],
+                                    color: colors.textSecondary,
                                   ),
                                   SizedBox(width: 8),
                                   Text(
@@ -271,8 +239,8 @@ void showBottomDialog(BuildContext context, WidgetRef ref) {
                                     style: GoogleFonts.quicksand(
                                       fontSize: 14,
                                       color: endDate != null
-                                          ? Colors.black87
-                                          : Colors.grey[600],
+                                          ? colors.textPrimary
+                                          : colors.textSecondary,
                                       fontWeight: endDate != null
                                           ? FontWeight.w600
                                           : FontWeight.w500,
@@ -289,20 +257,12 @@ void showBottomDialog(BuildContext context, WidgetRef ref) {
                 ),
                 SizedBox(height: 24),
                 ButtonColor(
-                  text: 'Simpan Trip',
+                  text: 'Update Trip',
                   width: double.infinity,
                   onPressed: () {
                     if (tripNameController.text.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Nama trip harus diisi')),
-                      );
-                      return;
-                    }
-                    if (selectedTrip == null) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Pilih destinasi terlebih dahulu'),
-                        ),
                       );
                       return;
                     }
@@ -317,21 +277,16 @@ void showBottomDialog(BuildContext context, WidgetRef ref) {
 
                     ref
                         .read(myTripNotifierProvider.notifier)
-                        .addMyTrip(
+                        .updateMyTrip(
+                          tripIndex,
                           tripNameController.text,
-                          selectedTrip!.location,
-                          selectedTrip!.category.title,
-                          selectedTrip!.description,
-                          selectedTrip!.imagePath,
                           startDate!,
                           endDate!,
-                          null,
-                          null,
                         );
 
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Trip berhasil ditambahkan!')),
+                      SnackBar(content: Text('Trip berhasil diupdate!')),
                     );
                   },
                 ),

@@ -11,6 +11,7 @@ import 'package:wanderly_app/widgets/form_field.dart';
 import 'package:wanderly_app/widgets/navbar/navbar.dart';
 import 'package:wanderly_app/widgets/navbar/navbar_item.dart';
 import 'package:wanderly_app/widgets/popular_card.dart';
+import 'package:wanderly_app/widgets/theme_switcher.dart';
 import 'package:wanderly_app/_mock/trip_mock.dart';
 import 'package:wanderly_app/widgets/trip_card.dart';
 import 'package:wanderly_app/screens/discover_all_trips_screen.dart';
@@ -28,14 +29,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+
     return Scaffold(
-      backgroundColor: AppColors.light.background,
+      backgroundColor: colors.background,
+      appBar: AppBar(
+        backgroundColor: colors.surface,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        actions: [ThemeSwitcher()],
+      ),
       body: Stack(
         children: [
           SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.only(
-                top: 55,
+                top: 20,
                 right: 20,
                 left: 20,
                 bottom: 150,
@@ -58,7 +67,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   FormTextField(
                     label: "Enter name or category ",
                     controller: _searchControler,
-                    suffixIcon: Icon(Icons.search_rounded, color: Colors.grey),
+                    suffixIcon: Icon(
+                      Icons.search_rounded,
+                      color: colors.textSecondary,
+                    ),
                   ),
                   SizedBox(height: 10),
                   Text("Category", style: AppTextStyles.h3(context)),
