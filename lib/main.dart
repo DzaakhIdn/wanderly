@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:wanderly_app/models/trip.dart';
 import 'package:wanderly_app/providers/theme_provider.dart';
 import 'package:wanderly_app/screens/auth/signin_form_screen.dart';
@@ -15,7 +16,7 @@ import 'package:wanderly_app/screens/saved_trip_screen.dart';
 import 'package:wanderly_app/screens/discover_all_trips_screen.dart';
 import 'package:wanderly_app/screens/trip_detail.dart';
 import 'package:wanderly_app/screens/user_profile_screen.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:wanderly_app/screens/map_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,6 +60,7 @@ class MyApp extends ConsumerWidget {
         SavedTripScreen.routName: (context) => SavedTripScreen(),
         DiscoverAllTripsScreen.routeName: (context) => DiscoverAllTripsScreen(),
         UserProfileScreen.routeName: (context) => UserProfileScreen(),
+        MapScreen.routeName: (context) => MapScreen(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == TripDetailScreen.routeName) {
